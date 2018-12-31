@@ -17,9 +17,11 @@
   },
   "production": {
     "username": "root",
-    "password": null,
-    "database": "meatify_production",
+    "password": "adefioye",
+    "database": "meatify",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "logging": false,
+    "dialectOptions": {"decimalNumbers": true}     
   }
 }
