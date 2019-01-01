@@ -6,7 +6,8 @@ module.exports = (sequelize, DataTypes) => {
     locality: DataTypes.STRING,
     cost: DataTypes.DECIMAL
   }, {
-    underscored: true
+    underscored: true,
+    tableName: 'delivery'
   });
   Delivery.associate = function(models) {
     // associations can be defined here

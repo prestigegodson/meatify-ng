@@ -17,7 +17,8 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: 'PROCESSING'
     }
   }, {
-    underscored: true
+    underscored: true,
+    tableName: 'orders'
   });
   Orders.associate = function(models) {
     // associations can be defined here

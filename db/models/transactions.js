@@ -27,7 +27,8 @@ module.exports = (sequelize, DataTypes) => {
       values: ['successful', 'failed', 'pending']
     }
   }, {
-    underscored: true
+    underscored: true,
+    tableName: 'transactions'
   });
 
   Transactions.associate = function(models) {

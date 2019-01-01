@@ -53,7 +53,8 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: ''
     }
   }, {
-    underscored: true
+    underscored: true,
+    tableName: 'addressbooks'
   });
   AddressBooks.associate = function(models) {
     // associations can be defined here
