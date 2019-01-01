@@ -5,7 +5,7 @@ const moment = require('moment');
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.bulkInsert('Butchers', [
+    return queryInterface.bulkInsert('butchers', [
       {
         id: uuid(),
         name: 'Nigeria army abattoir, Ashanti',

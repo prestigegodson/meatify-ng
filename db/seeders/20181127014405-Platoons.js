@@ -17,7 +17,7 @@ module.exports = {
     const butchers = await queryInterface.sequelize.query(`SELECT id from butchers;`, { type: queryInterface.sequelize.QueryTypes.SELECT});
     const animals = await queryInterface.sequelize.query(`SELECT id from animals;`, { type: queryInterface.sequelize.QueryTypes.SELECT});
 
-    return queryInterface.bulkInsert('Platoons', [
+    return queryInterface.bulkInsert('platoons', [
     {
       id: uuid(),
       ref_no: '4930087234',

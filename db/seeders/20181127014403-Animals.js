@@ -5,7 +5,7 @@ const moment = require('moment');
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.bulkInsert('Animals', [
+    return queryInterface.bulkInsert('animals', [
       {
         id: uuid(),
         animal_type: 'COW'
