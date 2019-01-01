@@ -42,15 +42,13 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING(50),
       allowNull:false
     },
-    lat: {
-      type: DataTypes.STRING(45),
+    is_default: {
+      type: DataTypes.BOOLEAN,
       allowNull: false,
-      defaultValue: ''
-    },
-    lng: {
-      type: DataTypes.STRING(45),
-      allowNull: false,
-      defaultValue: ''
+      defaultValue: false,
+      validate: {
+        notEmpty: true
+      }
     }
   }, {
     underscored: true,

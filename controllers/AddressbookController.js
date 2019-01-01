@@ -13,6 +13,7 @@ module.exports = {
                             'name', 
                             'address', 
                             'address_ext',
+                            'is_default',
                             'city',
                             'state'
                         ]);
@@ -27,6 +28,7 @@ module.exports = {
                 'name', 
                 'address', 
                 'address_ext',
+                'is_default',
                 'city',
                 'state'
             ]);        
@@ -45,7 +47,7 @@ module.exports = {
     },
     getAddress(req, res){
         AddressBooks
-                    .find({where: {user_id: req.user.id}})
+                    .findAll({where: {user_id: req.user.id}})
                     .then(addressBook => res.status(201).send(addressBook))
                     .catch(err => res.status(401).send({msg: err.message}));
     },
