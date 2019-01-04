@@ -1,4 +1,7 @@
 'use strict';
+
+const sequelizePaginate = require('sequelize-paginate')
+
 module.exports = (sequelize, DataTypes) => {
   const Animals = sequelize.define('Animals', {
     id:{
@@ -30,5 +33,7 @@ module.exports = (sequelize, DataTypes) => {
     });    
 
   };
+  
+  sequelizePaginate.paginate(Animals);
   return Animals;
 };
