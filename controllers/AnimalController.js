@@ -48,7 +48,11 @@ module.exports = {
                     }
                 ]
             }
-        ], attributes: ['id', 'animal_type']})
+        ],
+        attributes: ['id', 'animal_type'], 
+        order: [
+            ['id', 'DESC']
+        ]})
         .then(animals => res.status(201).send(animals))
         .catch(err => res.status(401).send({msg:err.message}));
     }
