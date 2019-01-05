@@ -20,9 +20,9 @@ const utility = require('../lib/Utility');
 
  router.post('/', [auth.authenticate(), utility.verifyAdmin], platoonController.create);
 
- router.get('/', [auth.authenticate()], platoonController.getPlatoons);
+ router.get('/', platoonController.getPlatoons);
 
- router.get('/:id', [auth.authenticate()], platoonController.getPlatoonById);
+ router.get('/:id', platoonController.getPlatoonById);
 
  router.put('/:id', [auth.authenticate(), utility.verifyAdmin], platoonController.updatePlatoon);
 
