@@ -17,4 +17,6 @@ router.get('/profile',  auth.authenticate(), UsersController.profile);
 /** Upload images */
 router.post('/upload',  auth.authenticate(), UsersController.upload);
 
+router.post('/validatephone', UsersController.validatePhoneNumber);
+
 module.exports = router;

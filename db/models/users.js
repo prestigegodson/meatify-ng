@@ -29,6 +29,15 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: true
       }
     },
+    phone_number: {
+      type: DataTypes.STRING(20),
+      allowNull: true,
+      unique: true,
+    },
+    validation_token: {
+      type: DataTypes.INTEGER(10),
+      allowNull:true
+    },
     profile_pic_url:{
       type: DataTypes.STRING(150),
       allowNull:true
