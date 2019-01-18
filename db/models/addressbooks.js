@@ -42,6 +42,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING(50),
       allowNull:false
     },
+    phone_number:{
+      type: DataTypes.STRING(20),
+      allowNull:false
+    },
     is_default: {
       type: DataTypes.BOOLEAN,
       allowNull: false,

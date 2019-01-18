@@ -14,6 +14,7 @@ module.exports = {
                             'address', 
                             'address_ext',
                             'is_default',
+                            'phone_number',
                             'city',
                             'state'
                         ]);
@@ -30,7 +31,8 @@ module.exports = {
                 'address_ext',
                 'is_default',
                 'city',
-                'state'
+                'state',
+                'phone_number'
             ]);        
         AddressBooks
                 .update(toUpdate, {where: {id: req.params.id, user_id: req.user.id}})

@@ -113,6 +113,13 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'CASCADE',
       hooks: true
     });
+
+    Platoons.hasMany(models.PlatoonImage, {
+      foreignKey: {name: 'platoon_id'},
+      as: 'images',
+      onDelete: 'CASCADE',
+      hooks: true
+    }); 
     
   };
 

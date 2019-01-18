@@ -5,6 +5,7 @@ const Butcher = require('../db/models').Butchers;
 const Users = require('../db/models').Users;
 const Orders = require('../db/models').Orders;
 const Animal = require('../db/models').Animals;
+const PlatoonImage = require('../db/models').PlatoonImage;
 
 const utility = require('../lib/Utility');
 const _ = require('lodash');
@@ -29,7 +30,7 @@ module.exports = {
     getPlatoons(req, res){
         var isComp = req.query.is_completed || 'false';
         var b = isComp === 'true' ? true : false;       
-
+        
         Platoons
                 .findAll({include: [
                            {
@@ -53,6 +54,11 @@ module.exports = {
                                model: Orders,
                                as: 'orders',
                                required: false,
+                            },
+                            {
+                                model: PlatoonImage,
+                                as: 'images',
+                                required: false
                             }
                         ] })
                 .then(platoons => res.status(201).send(platoons))

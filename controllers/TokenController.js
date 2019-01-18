@@ -17,13 +17,16 @@ const loginSchema = Joi.object().keys({
 
 module.exports = {
     login(req, res){
+        
         const {error, value} = Joi.validate(req.body, loginSchema);
+        console.log(error);
         if(error == null){
             const {email, password} = req.body;
-            
             Users.findOne({where: {email: email}})
                 .then(user => {
-                    if(Users.isPassword(user.password, password)){
+                    if(user == null){
+                        res.status(404).send({msg: 'Email address or password not found, check and try again!'});
+                    }else if(Users.isPassword(user.password, password)){
                         const payload = _.pick(user, ['id', 'email', 'is_admin']);
                         res.json({
                             token: jwt.encode(payload, config.get("secretOrKey"))

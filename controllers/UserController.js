@@ -121,7 +121,7 @@ module.exports = {
                     res.status(200).json(resposeObject);
                 });
             }else{
-                res.status(401).send({msg: 'Unable to validate your validation token, check and try again'});
+                res.status(401).send({msg: 'Incorrect token, kindly, check and try again'});
             }
         }).catch(err => {
             res.status(401).send({msg: err.message});
