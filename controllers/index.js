@@ -9,6 +9,7 @@ const Butchers = require('./ButchersController');
 const Transactions = require('./TransactionController');
 const AddressBooks = require('./AddressbookController');
 const Animal = require('./AnimalController');
+const PickUpStations = require('./PickUpStationsController');
 
 module.exports = {
     Users,
@@ -20,4 +21,5 @@ module.exports = {
     Transactions,
     AddressBooks,
     Animal,
+    PickUpStations,
 }

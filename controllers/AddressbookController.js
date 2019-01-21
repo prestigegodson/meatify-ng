@@ -42,8 +42,7 @@ module.exports = {
     deleteAddress(req, res){
         let id = req.params.id;
         //check if the address is created by the user
-        AddressBooks
-                    .destory({where: {id: id, user_id: req.user.id}})
+        AddressBooks.destory({where: {id: id}})
                     .then(result => res.status(200).send({msg: 'Delete successfully!'}))
                     .catch(err => res.status(404).send({msg: err.message}));
     },

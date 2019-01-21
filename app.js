@@ -16,6 +16,7 @@ var butcherRouter = require('./routes/butchers');
 var addressBooksRouter = require('./routes/addressBooks');
 var transactionsRouter = require('./routes/transaction');
 var animalRouter = require('./routes/animals');
+var pickUpStationRouter = require('./routes/pickupstations');
 
 var app = express();
 
@@ -37,6 +38,7 @@ app.use('/v1/api/meatify', animalRouter);
 app.use('/v1/api/platoons', platoonRouter);
 app.use('/v1/api/butchers', butcherRouter);
 app.use('/v1/api/addressbooks', addressBooksRouter);
+app.use('/v1/api/stations', pickUpStationRouter);
 // app.use('/v1/api/transactions', transactionsRouter);
 
 module.exports = app;
