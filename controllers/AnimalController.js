@@ -7,6 +7,7 @@ const Sequelize = require("../db/models").Sequelize;
 /** Models */
 const Platoons =  require('../db/models').Platoons;
 const Animals =  require('../db/models').Animals;
+const PlatoonImage =  require('../db/models').PlatoonImage;
 const Users =  require('../db/models').Users;
 
 module.exports = {
@@ -45,6 +46,12 @@ module.exports = {
                             'verified',
                             'is_disabled'
                         ]
+                    },
+                    {
+                        model: PlatoonImage,
+                        as: 'images',
+                        duplicating: false,
+                        attributes: ['id', 'image_path', 'is_default']
                     }
                 ]
             }
