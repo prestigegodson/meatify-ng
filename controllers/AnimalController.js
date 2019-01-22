@@ -9,7 +9,7 @@ const Platoons =  require('../db/models').Platoons;
 const Animals =  require('../db/models').Animals;
 const PlatoonImage =  require('../db/models').PlatoonImage;
 const Users =  require('../db/models').Users;
-
+ 
 module.exports = {
     index(req, res){
         Animals.findAll({include: [

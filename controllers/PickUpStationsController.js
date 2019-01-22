@@ -5,6 +5,8 @@
 
 const _ = require("lodash");
 const PickUpStations = require("../db/models").PickUpStations;
+const States =  require('../db/models').States;
+const Cities =  require('../db/models').Cities;
 const Utility = require("../lib/Utility");
 
 module.exports = {
@@ -26,7 +28,29 @@ module.exports = {
 
     getPickUpStations(req, res) {
         PickUpStations
-            .findAll()
+            .findAll({include: [
+                {
+                    model: States,
+                    as: 'state',
+                    required: true,
+                    duplicating: false,
+                    attributes: [
+                        'id',
+                        'name'
+                    ]
+                },
+                {
+                    model: Cities,
+                    as: 'city',
+                    required: true,
+                    duplicating: false,
+                    attributes: [
+                        'id',
+                        'name'
+                    ]
+                }                
+            ],
+            attributes: ['id', 'address', 'landmark', 'phone', 'workinghours']})
             .then(stations => res.status(201).send(stations))
             .catch(err => res.status(401).send({ msg: err.message }));
     }
