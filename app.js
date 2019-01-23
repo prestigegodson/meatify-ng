@@ -17,6 +17,7 @@ var addressBooksRouter = require('./routes/addressBooks');
 var transactionsRouter = require('./routes/transaction');
 var animalRouter = require('./routes/animals');
 var pickUpStationRouter = require('./routes/pickupstations');
+var statesRouter = require('./routes/states');
 
 var app = express();
 
@@ -39,6 +40,7 @@ app.use('/v1/api/platoons', platoonRouter);
 app.use('/v1/api/butchers', butcherRouter);
 app.use('/v1/api/addressbooks', addressBooksRouter);
 app.use('/v1/api/stations', pickUpStationRouter);
+app.use('/v1/api/states', statesRouter);
 // app.use('/v1/api/transactions', transactionsRouter);
 
 module.exports = app;

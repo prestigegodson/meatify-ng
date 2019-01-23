@@ -10,6 +10,7 @@ const Transactions = require('./TransactionController');
 const AddressBooks = require('./AddressbookController');
 const Animal = require('./AnimalController');
 const PickUpStations = require('./PickUpStationsController');
+const States = require('./StatesController');
 
 module.exports = {
     Users,
@@ -22,4 +23,5 @@ module.exports = {
     AddressBooks,
     Animal,
     PickUpStations,
+    States
 }
