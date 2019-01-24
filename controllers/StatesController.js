@@ -11,7 +11,7 @@ module.exports = {
         .catch(err => res.status(400).send({msg:err.message}))
     },
     getStateById(req, res){
-        States.findAll({
+        States.findOne({
             include:[
                 {
                     model: Cities,
