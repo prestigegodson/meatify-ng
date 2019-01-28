@@ -20,11 +20,11 @@ module.exports = {
         }, {
           id: uuid(),
           image_path: 'https://nnimgt-a.akamaihd.net/transform/v1/crop/frm/3AYKBMnFjcWGESVJQNBfejj/612ed40e-9fe7-4dda-97e3-64b82aabd227.JPG/r731_0_3872_2590_w1200_h678_fmax.jpg',
-          platoon_id: platoons[1].id
+          platoon_id: platoons[3].id
         },{
           id: uuid(),
           image_path: 'http://i.imgur.com/IF2QsVa.jpg',
-          platoon_id: platoons[1].id
+          platoon_id: platoons[2].id
         },
         {
           id: uuid(),

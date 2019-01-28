@@ -23,6 +23,7 @@ module.exports = {
                     'ref_no',
                     'exp_date',
                     'price',
+                    'description',
                     'price_per_member',
                     'no_of_member',
                     'admin_charges',

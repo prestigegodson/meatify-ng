@@ -12,6 +12,8 @@ module.exports = {
     /**
      * Got the information here
      * https://stackoverflow.com/questions/48732223/sequelize-seed-with-associations
+     * 
+     * http://dagris.info/countries/350/breeds
      */
 
     const butchers = await queryInterface.sequelize.query(`SELECT id from butchers;`, { type: queryInterface.sequelize.QueryTypes.SELECT });
@@ -56,6 +58,25 @@ module.exports = {
         created_at: moment().format(),
         updated_at: moment().format()
       },
+      {
+        id: uuid(),
+        ref_no: '9300878492',
+        exp_date: moment().add(3, 'days').format(),
+        price: parseFloat('350000').toFixed(2),
+        no_of_member: 4,
+        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
+        price_per_member: parseFloat('350000') / 4,
+        admin_charges: parseFloat('2500').toFixed(2),
+        is_completed: false,
+        animal_profile: 'https://1.bp.blogspot.com/-LZi9Vr0s-Fw/WBYX8ttS32I/AAAAAAAACwI/kVl-4xgtlhoFs3-OOAH9FjKpcDafqJ0OACLcB/s600/N%2527Dama%2BCattle.jpg',
+        color: 'grey',
+        weight: '720 kg',
+        breed: 'Red Fulani',
+        butcher_id: butchers[0].id,
+        animal_type_id: animals[0].id,
+        created_at: moment().format(),
+        updated_at: moment().format()
+      },      
       {
         id: uuid(),
         ref_no: '4828985010',

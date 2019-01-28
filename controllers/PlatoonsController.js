@@ -19,6 +19,7 @@ module.exports = {
         Platoons.create(_.pick(req.body, ['ref_no', 
                                           'exp_date', 
                                           'price', 
+                                          'description',
                                           'price_per_member',
                                           'no_of_member', 
                                           'is_completed', 
@@ -99,6 +100,7 @@ module.exports = {
                             'ref_no', 
                             'exp_date', 
                             'price', 
+                            'description',
                             'price_per_member', 
                             'no_of_member', 
                             'is_completed'
