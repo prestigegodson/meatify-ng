@@ -88,6 +88,11 @@ module.exports = {
                         as: 'orders',
                         required: false,
                         // through: { attributes: [] }
+                     },
+                     {
+                        model: PlatoonImage,
+                        as: 'images',
+                        required: false
                      }
                     ], where: {id: req.params.id}})
                 .then(platoon => utility.validateRes(platoon, res))
