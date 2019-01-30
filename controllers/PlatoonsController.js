@@ -92,6 +92,7 @@ module.exports = {
                      {
                         model: PlatoonImage,
                         as: 'images',
+                        attributes: ['id', 'image_path'],
                         required: false
                      }
                     ], where: {id: req.params.id}})
