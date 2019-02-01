@@ -27,7 +27,7 @@ module.exports = {
                     if(user == null){
                         res.status(404).send({msg: 'Email address or password not found, check and try again!'});
                     }else if(Users.isPassword(user.password, password)){
-                        const payload = _.pick(user, ['id', 'email', 'is_admin']);
+                        const payload = _.pick(user, ['id', 'email', 'phone_number', 'is_admin']);
                         res.json({
                             token: jwt.encode(payload, config.get("secretOrKey"))
                         })
