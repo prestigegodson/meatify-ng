@@ -105,18 +105,18 @@ module.exports = {
 
     /** Validate User's phone number */
     validatePhoneNumber(req, res){
-        let {email, token, phone} = req.body;
-        Users.find({where: {phone_number: phone}}).then(user => {
+        let {id, email, otp, phone} = req.body;
+        Users.find({where: {id: id}}).then(user => {
             //if found
-            // console.log(user);
-            if(user.validation_token == token){
-                //validation succeed!
+            if(user.validation_token == otp){
+                //validation succeed! 
                 Users.update({verified: true, validation_token: null}, {where:{
                     email: user.email
                 }}).then(new_user => {
-                    const payload = _.pick(new_user, ['id', 'email', 'phone_number', 'is_admin']);
+                    const payload = _.pick(user, ['id', 'email', 'phone_number', 'is_admin']);
                     var resposeObject = {
-                        token: jwt.encode(payload, config.get("secretOrKey"))
+                        token: jwt.encode(payload, config.get("secretOrKey")),
+                        id: new_user.id
                     }
                     res.status(200).json(resposeObject);
                 });

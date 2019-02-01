@@ -29,10 +29,11 @@ module.exports = {
                     }else if(Users.isPassword(user.password, password)){
                         const payload = _.pick(user, ['id', 'email', 'phone_number', 'is_admin']);
                         res.json({
-                            token: jwt.encode(payload, config.get("secretOrKey"))
+                            token: jwt.encode(payload, config.get("secretOrKey")),
+                            id: user.id
                         })
                     }else{
-                        res.status(401).send({msg: 'Incorrect login credentials, check and try again'});
+                        res.status(401).send({msg: 'Incorrect login credentials, check and try again!'});
                     }
                 }).catch(error => res.status(401).json({msg: error.message}));
         }else{
