@@ -116,7 +116,14 @@ module.exports = {
                     const payload = _.pick(user, ['id', 'email', 'phone_number', 'is_admin']);
                     var resposeObject = {
                         token: jwt.encode(payload, config.get("secretOrKey")),
-                        id: new_user.id
+                        user: {
+                            id: user.id,
+                            email: user.email,
+                            phone_number: user.phone_number,
+                            is_admin: user.is_admin,
+                            verified: user.verified,
+                            is_disabled: user.is_disabled
+                        }
                     }
                     res.status(200).json(resposeObject);
                 });

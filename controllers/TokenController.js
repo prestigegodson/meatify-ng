@@ -30,7 +30,14 @@ module.exports = {
                         const payload = _.pick(user, ['id', 'email', 'phone_number', 'is_admin']);
                         res.json({
                             token: jwt.encode(payload, config.get("secretOrKey")),
-                            id: user.id
+                            user: {
+                                id: user.id,
+                                email: user.email,
+                                phone_number: user.phone_number,
+                                is_admin: user.is_admin,
+                                verified: user.verified,
+                                is_disabled: user.is_disabled
+                            }
                         })
                     }else{
                         res.status(401).send({msg: 'Incorrect login credentials, check and try again!'});
