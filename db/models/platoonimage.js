@@ -31,6 +31,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {
     underscored: true,
+    timestamps: false,
     tableName: 'platoon_image'    
   });
   PlatoonImage.associate = function(models) {
