@@ -12,8 +12,8 @@ module.exports = {
         city: 'Ashanti',
         state: 'Lagos State',
         phone_number: '(+234) 806-331-7344',
-        created_at: moment().format(),
-        updated_at: moment().format()
+        created_at: moment().format('YYYY:MM:DD HH:mm:ss'),
+        updated_at: moment().format('YYYY:MM:DD HH:mm:ss')
       },
       {
         id: uuid(),
@@ -21,8 +21,8 @@ module.exports = {
         city: 'Lagos',
         state: 'Lagos State',
         phone_number: '(+234) 806-331-0001',
-        created_at: moment().format(),
-        updated_at: moment().format()
+        created_at: moment().format('YYYY:MM:DD HH:mm:ss'),
+        updated_at: moment().format('YYYY:MM:DD HH:mm:ss')
       }      
   ], {});
   },
