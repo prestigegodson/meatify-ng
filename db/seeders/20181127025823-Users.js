@@ -16,49 +16,49 @@ module.exports = {
       password: bcrypt.hashSync('adefioye', salt),
       is_admin: true,
       last_login_ip: ip.address(),
-      last_login_date: moment().format(),
+      last_login_date: moment().format('YYYY:MM:DD HH:mm:ss'),
       profile_pic_url: 'https://randomuser.me/api/portraits/men/65.jpg',
-      created_at: moment().format(),
-      updated_at: moment().format()
+      created_at: moment().format('YYYY:MM:DD HH:mm:ss'),
+      updated_at: moment().format('YYYY:MM:DD HH:mm:ss')
     }, {
       id: uuid(),
       email: 'samsoft@gmail.com',
       password: bcrypt.hashSync('adefioye1', salt),
       is_admin: false,
       last_login_ip: ip.address(),
-      last_login_date: moment().format(),
+      last_login_date: moment().format('YYYY:MM:DD HH:mm:ss'),
       profile_pic_url: 'https://randomuser.me/api/portraits/men/7.jpg',
-      created_at: moment().format(),
-      updated_at: moment().format()      
+      created_at: moment().format('YYYY:MM:DD HH:mm:ss'),
+      updated_at: moment().format('YYYY:MM:DD HH:mm:ss')      
     }, {
       id: uuid(),
       email: 'osinubi.oyinkansola@gmail.com',
       password: bcrypt.hashSync('adefioye2', salt),
       is_admin: false,
       last_login_ip: ip.address(),
-      last_login_date: moment().format(),
-      created_at: moment().format(),
-      updated_at: moment().format()       
+      last_login_date: moment().format('YYYY:MM:DD HH:mm:ss'),
+      created_at: moment().format('YYYY:MM:DD HH:mm:ss'),
+      updated_at: moment().format('YYYY:MM:DD HH:mm:ss')       
     }, {
       id: uuid(),
       email: 'oyin4real@yahoo.com',
       password: bcrypt.hashSync('adefioye3', salt),
       is_admin: false,
       last_login_ip: ip.address(),
-      last_login_date: moment().format(),
+      last_login_date: moment().format('YYYY:MM:DD HH:mm:ss'),
       profile_pic_url: 'https://randomuser.me/api/portraits/men/51.jpg',
-      created_at: moment().format(),
-      updated_at: moment().format()         
+      created_at: moment().format('YYYY:MM:DD HH:mm:ss'),
+      updated_at: moment().format('YYYY:MM:DD HH:mm:ss')         
     }, {
       id: uuid(),
       email: 'cryptodev@gmail.com',
       password: bcrypt.hashSync('adefioye4', salt),
       is_admin: false,
       last_login_ip: ip.address(),
-      last_login_date: moment().format(),
+      last_login_date: moment().format('YYYY:MM:DD HH:mm:ss'),
       profile_pic_url: 'https://randomuser.me/api/portraits/men/56.jpg',
-      created_at: moment().format(),
-      updated_at: moment().format()       
+      created_at: moment().format('YYYY:MM:DD HH:mm:ss'),
+      updated_at: moment().format('YYYY:MM:DD HH:mm:ss')       
     }], {});
   },
 

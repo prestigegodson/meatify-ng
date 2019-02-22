@@ -22,8 +22,8 @@ module.exports = {
       city : "Victoria Island",
       state : "Lagos State",
       user_id: users[0].id,
-      created_at: moment().format(),
-      updated_at: moment().format()
+      created_at: moment().format('YYYY:MM:DD HH:mm:ss'),
+      updated_at: moment().format('YYYY:MM:DD HH:mm:ss')
     },
     {
       id: uuid(),
@@ -34,8 +34,8 @@ module.exports = {
       city : "Gbagada",
       state : "Lagos State",
       user_id: users[0].id,
-      created_at: moment().format(),
-      updated_at: moment().format()
+      created_at: moment().format('YYYY:MM:DD HH:mm:ss'),
+      updated_at: moment().format('YYYY:MM:DD HH:mm:ss')
     }
   ], {});
     

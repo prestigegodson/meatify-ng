@@ -36,8 +36,8 @@ module.exports = {
         breed: 'Red Bororo',
         butcher_id: butchers[0].id,
         animal_type_id: animals[0].id,
-        created_at: moment().format(),
-        updated_at: moment().format()
+        created_at: moment().format('YYYY:MM:DD HH:mm:ss'),
+        updated_at: moment().format('YYYY:MM:DD HH:mm:ss')
       },
       {
         id: uuid(),
@@ -55,8 +55,8 @@ module.exports = {
         breed: 'Zebu',
         butcher_id: butchers[0].id,
         animal_type_id: animals[0].id,
-        created_at: moment().format(),
-        updated_at: moment().format()
+        created_at: moment().format('YYYY:MM:DD HH:mm:ss'),
+        updated_at: moment().format('YYYY:MM:DD HH:mm:ss')
       },
       {
         id: uuid(),
@@ -74,8 +74,8 @@ module.exports = {
         breed: 'Red Fulani',
         butcher_id: butchers[0].id,
         animal_type_id: animals[0].id,
-        created_at: moment().format(),
-        updated_at: moment().format()
+        created_at: moment().format('YYYY:MM:DD HH:mm:ss'),
+        updated_at: moment().format('YYYY:MM:DD HH:mm:ss')
       },      
       {
         id: uuid(),
@@ -93,8 +93,8 @@ module.exports = {
         breed: 'American LaMancha Goat',
         butcher_id: butchers[0].id,
         animal_type_id: animals[1].id,
-        created_at: moment().format(),
-        updated_at: moment().format()
+        created_at: moment().format('YYYY:MM:DD HH:mm:ss'),
+        updated_at: moment().format('YYYY:MM:DD HH:mm:ss')
       },
       {
         id: uuid(),
@@ -112,8 +112,8 @@ module.exports = {
         breed: 'Guinea fowl',
         butcher_id: butchers[0].id,
         animal_type_id: animals[2].id,
-        created_at: moment().format(),
-        updated_at: moment().format()
+        created_at: moment().format('YYYY:MM:DD HH:mm:ss'),
+        updated_at: moment().format('YYYY:MM:DD HH:mm:ss')
       }
     ], {});
 
