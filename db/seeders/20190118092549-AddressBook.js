@@ -30,6 +30,7 @@ module.exports = {
       name : "Adekunle O. Oludayo", 
       address : "Ora Ekpen Cres", 
       address_ext : "Oniru Estate",
+      is_default: false,
       phone_number : "08034902177",
       city : "Gbagada",
       state : "Lagos State",
