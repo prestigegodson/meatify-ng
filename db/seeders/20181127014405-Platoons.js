@@ -23,7 +23,7 @@ module.exports = {
       {
         id: uuid(),
         ref_no: '4930087234',
-        exp_date: moment().add(1, 'days').format(),
+        exp_date: moment().add(1, 'days').format('YYYY:MM:DD HH:mm:ss'),
         price: parseFloat('100000').toFixed(2),
         no_of_member: 4,
         description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
@@ -42,7 +42,7 @@ module.exports = {
       {
         id: uuid(),
         ref_no: '9300878901',
-        exp_date: moment().add(2, 'days').format(),
+        exp_date: moment().add(2, 'days').format('YYYY:MM:DD HH:mm:ss'),
         price: parseFloat('200000').toFixed(2),
         no_of_member: 4,
         description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
@@ -61,7 +61,7 @@ module.exports = {
       {
         id: uuid(),
         ref_no: '9300878492',
-        exp_date: moment().add(3, 'days').format(),
+        exp_date: moment().add(3, 'days').format('YYYY:MM:DD HH:mm:ss'),
         price: parseFloat('350000').toFixed(2),
         no_of_member: 4,
         description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
@@ -80,7 +80,7 @@ module.exports = {
       {
         id: uuid(),
         ref_no: '4828985010',
-        exp_date: moment().add(2, 'days').format(),
+        exp_date: moment().add(2, 'days').format('YYYY:MM:DD HH:mm:ss'),
         price: parseFloat('21000').toFixed(2),
         no_of_member: 4,
         description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
@@ -99,7 +99,7 @@ module.exports = {
       {
         id: uuid(),
         ref_no: '4673209300',
-        exp_date: moment().add(3, 'days').format(),
+        exp_date: moment().add(3, 'days').format('YYYY:MM:DD HH:mm:ss'),
         price: parseFloat('4000').toFixed(2),
         no_of_member: 1,
         description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
