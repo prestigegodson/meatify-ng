@@ -19,8 +19,8 @@ module.exports = {
       address_ext : "Oniru Estate",
       is_default : true,
       phone_number : "07063317344",
-      city : "Victoria Island",
-      state : "Lagos State",
+      city_id : 20,
+      state_id : 25,
       user_id: users[0].id,
       created_at: moment().format('YYYY:MM:DD HH:mm:ss'),
       updated_at: moment().format('YYYY:MM:DD HH:mm:ss')
@@ -32,8 +32,8 @@ module.exports = {
       address_ext : "Oniru Estate",
       is_default: false,
       phone_number : "08034902177",
-      city : "Gbagada",
-      state : "Lagos State",
+      city_id : 18,
+      state_id : 25,
       user_id: users[0].id,
       created_at: moment().format('YYYY:MM:DD HH:mm:ss'),
       updated_at: moment().format('YYYY:MM:DD HH:mm:ss')
