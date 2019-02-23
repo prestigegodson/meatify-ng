@@ -65,8 +65,8 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     })
 
-    AddressBooks.hasOne(models.States, { foreignKey: 'state_id', as: 'state' });
-    AddressBooks.hasOne(models.Cities, { foreignKey: 'city_id', as: 'city' });
+    AddressBooks.belongsTo(models.States, { foreignKey: 'state_id', as: 'state' });
+    AddressBooks.belongsTo(models.Cities, { foreignKey: 'city_id', as: 'city' });
   };
 
   //Hook
