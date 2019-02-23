@@ -2,6 +2,9 @@
 
 const _ = require("lodash");
 const AddressBooks = require("../db/models").AddressBooks;
+const States = require("../db/models").States;
+const Cities = require("../db/models").Cities;
+
 const Utility = require("../lib/Utility");
 
 module.exports = {
@@ -48,13 +51,40 @@ module.exports = {
     },
     getAddress(req, res){
         AddressBooks
-                    .findAll({where: {user_id: req.user.id}})
+                    .findAll({
+                        include: [
+                            {
+                                model: Cities,
+                                as: 'city',
+                                required: false,
+                            },
+                            {
+                                model: States,
+                                as: 'state',
+                                required: false,
+                            }
+                        ],
+                        where: {user_id: req.user.id}
+                    })
                     .then(addressBook => res.status(201).send(addressBook))
                     .catch(err => res.status(401).send({msg: err.message}));
     },
     getAddressUserAddresses(req, res){
         AddressBooks
-                    .findById(req.params.id)
+                    .find({
+                        include: [
+                            {
+                                model: Cities,
+                                as: 'city',
+                                required: false,
+                            },
+                            {
+                                model: States,
+                                as: 'state',
+                                required: false,
+                            }
+                        ],
+                        where: {id: req.params.id}})
                     .then(addressBooks => Utility.validateRes(addressBooks, req, res))
                     .catch(err => res.status(401).send({msg: err.message}));
     },
