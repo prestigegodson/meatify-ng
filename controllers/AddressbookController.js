@@ -15,8 +15,8 @@ module.exports = {
                             'address_ext',
                             'is_default',
                             'phone_number',
-                            'city',
-                            'state'
+                            'state_id',
+                            'city_id'
                         ]);
         Utility.createNewModel(AddressBooks, toSave, (err, addressBook) => {
             if(err) return res.status(404).send({msg: err.message});
@@ -30,8 +30,8 @@ module.exports = {
                 'address', 
                 'address_ext',
                 'is_default',
-                'city',
-                'state',
+                'city_id',
+                'state_id',
                 'phone_number'
             ]);        
         AddressBooks

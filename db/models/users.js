@@ -76,6 +76,7 @@ module.exports = (sequelize, DataTypes) => {
     // associations can be defined here
     Users.hasMany(models.Orders);
     Users.hasMany(models.AddressBooks);
+    Users.hasMany(models.Coupon);
     Users.belongsToMany(models.Roles, { through: models.UserRole });
     Users.belongsToMany(models.Platoons, { 
       through: models.UserPlatoon,

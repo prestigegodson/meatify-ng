@@ -34,14 +34,14 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty:false
       }
     },
-    city: {
-      type: DataTypes.STRING(20),
-      allowNull:false
-    },
-    state: {
-      type: DataTypes.STRING(50),
-      allowNull:false
-    },
+    // city: {
+    //   type: DataTypes.STRING(20),
+    //   allowNull:false
+    // },
+    // state: {
+    //   type: DataTypes.STRING(50),
+    //   allowNull:false
+    // },
     phone_number:{
       type: DataTypes.STRING(20),
       allowNull:false
@@ -64,6 +64,9 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: {name: 'user_id'},
       allowNull: false
     })
+
+    AddressBooks.hasOne(models.States, { foreignKey: 'state_id', as: 'state' });
+    AddressBooks.hasOne(models.Cities, { foreignKey: 'city_id', as: 'city' });
   };
 
   //Hook

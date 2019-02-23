@@ -1,11 +1,12 @@
 {
   "development": {
     "username": "root",
-    "password": "adefioye",
-    "database": "meatify",
+    "password": null,
+    "database": "meatify_development",
     "host": "127.0.0.1",
     "dialect": "mysql",
-    "logging": false
+    "logging": false,
+    "dialectOptions": {"decimalNumbers": true} 
   },
   "test": {
     "username": "root",
@@ -20,6 +21,7 @@
     "database": "meatify",
     "host": "127.0.0.1",
     "dialect": "mysql",
-    "logging": false   
+    "logging": false,
+    "dialectOptions": {"decimalNumbers": true}     
   }
 }
