@@ -28,15 +28,17 @@ module.exports = {
                         res.status(404).send({msg: 'Email address or password not found, check and try again!'});
                     }else if(Users.isPassword(user.password, password)){
                         const payload = _.pick(user, ['id', 'email', 'phone_number', 'is_admin']);
+                        const _token = jwt.encode(payload, config.get("secretOrKey"));
                         res.json({
-                            token: jwt.encode(payload, config.get("secretOrKey")),
+                            token: _token,
                             user: {
-                                id: user.id,
-                                email: user.email,
-                                phone_number: user.phone_number,
-                                is_admin: user.is_admin,
-                                verified: user.verified,
-                                is_disabled: user.is_disabled
+                                id:             user.id,
+                                email:          user.email,
+                                phone_number:   user.phone_number,
+                                is_admin:       user.is_admin,
+                                verified:       user.verified,
+                                is_disabled:    user.is_disabled,
+                                auth_token:     _token
                             }
                         })
                     }else{

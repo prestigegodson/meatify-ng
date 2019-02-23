@@ -29,109 +29,116 @@ const schema = Joi.object().keys({
 module.exports = {
     /** Create new user */
     create(req, res) {
-        const {error, value} = Joi.validate(req.body, schema);
+        const { error, value } = Joi.validate(req.body, schema);
         console.log(error);
-        if(error){
-            return res.status(401).send({msg: 'One of the field(s) is empty, check and try again!'});
+        if (error) {
+            return res.status(401).send({ msg: 'One of the field(s) is empty, check and try again!' });
         }
         //should return 
         Users
             .create(_.pick(req.body, ['email', 'password', 'phone_number', 'is_admin']))
             .then(user => {
-                if(user.phone_number != undefined){
+                if (user.phone_number != undefined) {
                     //generate phone number validation token, 5 digit
                     var _token = Utility.generatePhoneValidationToken();
-                    Users.update({validation_token: _token}, 
-                        {where: {email: user.email}}).then(user=> {console.log(user)});
-                }else{
-                    Mailer.emit('SEND_WELCOME_MAIL', { email:user.email, last_login_ip:user.last_login_ip, activationUrl: uuid() });
+                    Users.update({ validation_token: _token },
+                        { where: { email: user.email } }).then(user => { console.log(user) });
+                } else {
+                    Mailer.emit('SEND_WELCOME_MAIL', { email: user.email, last_login_ip: user.last_login_ip, activationUrl: uuid() });
                 }
                 res.status(201).send(user);
             })
             .catch(Sequelize.ValidationError, err => {
-                res.status(401).send({msg: err.errors[0].message});
+                res.status(401).send({ msg: err.errors[0].message });
             })
-            .catch(err => res.status(401).send({msg: err.message}))
+            .catch(err => res.status(401).send({ msg: err.message }))
     },
 
     /** Change password */
-    changePassword(req, res){
-        let {old_password, new_password} = req.body;
-        if(old_password == new_password) return res.status(401).send({msg: 'New password and old password are the same, please check and try again'});
+    changePassword(req, res) {
+        let { old_password, new_password } = req.body;
+        if (old_password == new_password) return res.status(401).send({ msg: 'New password and old password are the same, please check and try again' });
 
-        Users.findOne({where: {email: req.user.email}}).then(user => {
+        Users.findOne({ where: { email: req.user.email } }).then(user => {
             const check = Users.isPassword(user.password, old_password);
-            if(check){ //means the password is correct
-                
-                const salt         = bcrypt.genSaltSync(10);
-                new_password       = bcrypt.hashSync(new_password, salt);
+            if (check) { //means the password is correct
 
-                Users.update({password: new_password}, {where: {email: req.user.email}})
-                    .then(instance => res.status(201).send({msg: 'Password update successful!'}))
-                    .catch(err => res.status(401).send({msg: err.message}));
-            }else{
-                res.status(401).send({msg: 'Something went wrong, incorrect credentials'});
+                const salt = bcrypt.genSaltSync(10);
+                new_password = bcrypt.hashSync(new_password, salt);
+
+                Users.update({ password: new_password }, { where: { email: req.user.email } })
+                    .then(instance => res.status(201).send({ msg: 'Password update successful!' }))
+                    .catch(err => res.status(401).send({ msg: err.message }));
+            } else {
+                res.status(401).send({ msg: 'Something went wrong, incorrect credentials' });
             }
         });
     },
 
-    /** User profile information */ 
-    profile(req, res){
+    /** User profile information */
+    profile(req, res) {
         Users
-            .find({where: {id: req.user.id}, 
-                include: 
-                [//You can add more relationship here, this will be use to populate dashboard
-                    {model: Roles}, 
-                    {model: Orders}, 
-                    {model: AddressBooks}
-                ] })
+            .find({
+                where: { id: req.user.id },
+                include:
+                    [//You can add more relationship here, this will be use to populate dashboard
+                        { model: Roles },
+                        { model: Orders },
+                        { model: AddressBooks }
+                    ]
+            })
             .then(user => res.status(201).send(user))
-            .catch(err => res.status(401).send({msg: err.message}));
+            .catch(err => res.status(401).send({ msg: err.message }));
     },
-    
+
     /** Upload User's profile */
-    upload(req, res){
+    upload(req, res) {
         let imageFile = req.files.file;
         let USERID = req.user.id;
 
         imageFile.mv(`${__dirname}/public/images/${USERID}.jpg`, (err) => {
-            if(err){
-                return res.status(500).send({msg: err.message});
-            }else{
-                res.status(201).json({file: `${USERID}.jpg`});
+            if (err) {
+                return res.status(500).send({ msg: err.message });
+            } else {
+                res.status(201).json({ file: `${USERID}.jpg` });
             }
         })
     },
 
     /** Validate User's phone number */
-    validatePhoneNumber(req, res){
-        let {id, email, otp, phone} = req.body;
-        Users.find({where: {id: id}}).then(user => {
+    validatePhoneNumber(req, res) {
+        let { id, email, otp, phone } = req.body;
+        Users.find({ where: { id: id } }).then(user => {
             //if found
-            if(user.validation_token == otp){
+            if (user.validation_token == otp) {
                 //validation succeed! 
-                Users.update({verified: true, validation_token: null}, {where:{
-                    email: user.email
-                }}).then(new_user => {
+                Users.update({ verified: true, validation_token: null }, {
+                    where: {
+                        email: user.email
+                    }
+                }).then(new_user => {
                     const payload = _.pick(user, ['id', 'email', 'phone_number', 'is_admin']);
+                    const _token = jwt.encode(payload, config.get("secretOrKey"));
+
                     var resposeObject = {
-                        token: jwt.encode(payload, config.get("secretOrKey")),
+                        token: _token,
                         user: {
-                            id: user.id,
-                            email: user.email,
-                            phone_number: user.phone_number,
-                            is_admin: user.is_admin,
-                            verified: user.verified,
-                            is_disabled: user.is_disabled
+                            id:             user.id,
+                            email:          user.email,
+                            phone_number:   user.phone_number,
+                            is_admin:       user.is_admin,
+                            verified:       user.verified,
+                            is_disabled:    user.is_disabled,
+                            auth_token:     _token
                         }
                     }
                     res.status(200).json(resposeObject);
                 });
-            }else{
-                res.status(401).send({msg: 'Incorrect token, kindly, check and try again'});
+            } else {
+                res.status(401).send({ msg: 'Incorrect token, kindly, check and try again' });
             }
         }).catch(err => {
-            res.status(401).send({msg: err.message});
+            res.status(401).send({ msg: err.message });
         });
     }
 }
