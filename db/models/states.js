@@ -19,6 +19,12 @@ module.exports = (sequelize, DataTypes) => {
       hooks: true 
     });
 
+    States.hasMany(models.AddressBooks, {
+      foreignKey: {name: 'state_id'},
+      as: 'state',
+      hooks: true
+    });
+
   };
   return States;
 };

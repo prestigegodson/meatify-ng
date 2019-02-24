@@ -63,13 +63,12 @@ module.exports = {
                                 as: 'state',
                                 required: false,
                             }
-                        ],
-                        where: {user_id: req.user.id}
-                    })
-                    .then(addressBook => res.status(201).send(addressBook))
-                    .catch(err => res.status(401).send({msg: err.message}));
+                        ], where: {user_id: req.user.id}})
+                        .then(addressBook => res.status(201).send(addressBook))
+                        .catch(err => res.status(401).send({msg: err.message}));
     },
     getAddressUserAddresses(req, res){
+        console.log('I AM HERE');
         AddressBooks
                     .find({
                         include: [
