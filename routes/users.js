@@ -4,9 +4,12 @@ const auth = require('../auth/auth');
 
 //Controller
 const UsersController = require('../controllers').Users;
+const DashboardController = require('../controllers').Dashboard;
 
 /** Create a new User */
 router.post('/', UsersController.create);
+
+router.get('/dashboard', auth.authenticate(), DashboardController.getUserInfo)
 
 /** Change password */
 router.put('/changePassword', auth.authenticate(), UsersController.changePassword);

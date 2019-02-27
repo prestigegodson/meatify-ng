@@ -10,6 +10,8 @@ const Roles = require("../db/models").Roles;
 const Orders = require("../db/models").Orders;
 const Platoons = require("../db/models").Platoons;
 const AddressBooks = require("../db/models").AddressBooks;
+const Delivery = require("../db/models").Delivery;
+
 const EventMailer = require("../events/EventMailer");
 const Mailer = new EventMailer();
 const uuid = require('uuid/v4');
@@ -30,20 +32,27 @@ module.exports = {
      * 5. Saved Card Information
      * 6. 
      */
-
+ 
     getUserInfo(req, res) {
+        console.log('dashboard');
         Users.findOne({ 
             where: { id: req.user.id }, 
             include: [
                 {model: Roles},
-                {model: Platoons},
-                {model: Orders},
-                {model: Addresses},
-                {model: Coupons},
-                {model: Activities},
-                {model: CardInfo},
+                {
+                    model: Platoons,
+                    as: 'platoons'
+                },
+                {
+                    model: Orders,
+                    required: false
+                },
+                {model: AddressBooks},
+                // {model: Coupons},
+                // {model: Activities},
+                // {model: CardInfo},
             ] 
-        })
+        }).then(response => res.status(201).send(response)).catch();
     }
 
 }
