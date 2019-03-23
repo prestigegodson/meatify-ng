@@ -23,7 +23,7 @@ module.exports = {
       {
         id: uuid(),
         ref_no: '4930087234',
-        exp_date: moment().add(1, 'days').format('YYYY:MM:DD HH:mm:ss'),
+        exp_date: moment().add(4, 'days').format('YYYY:MM:DD HH:mm:ss'),
         price: parseFloat('100000').toFixed(2),
         no_of_member: 4,
         description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
@@ -42,7 +42,7 @@ module.exports = {
       {
         id: uuid(),
         ref_no: '9300878901',
-        exp_date: moment().add(2, 'days').format('YYYY:MM:DD HH:mm:ss'),
+        exp_date: moment().add(15, 'days').format('YYYY:MM:DD HH:mm:ss'),
         price: parseFloat('200000').toFixed(2),
         no_of_member: 4,
         description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
@@ -61,7 +61,7 @@ module.exports = {
       {
         id: uuid(),
         ref_no: '9300878492',
-        exp_date: moment().add(3, 'days').format('YYYY:MM:DD HH:mm:ss'),
+        exp_date: moment().add(8, 'days').format('YYYY:MM:DD HH:mm:ss'),
         price: parseFloat('350000').toFixed(2),
         no_of_member: 4,
         description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
@@ -80,7 +80,7 @@ module.exports = {
       {
         id: uuid(),
         ref_no: '4828985010',
-        exp_date: moment().add(2, 'days').format('YYYY:MM:DD HH:mm:ss'),
+        exp_date: moment().add(7, 'days').format('YYYY:MM:DD HH:mm:ss'),
         price: parseFloat('21000').toFixed(2),
         no_of_member: 4,
         description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
@@ -96,10 +96,30 @@ module.exports = {
         created_at: moment().format('YYYY:MM:DD HH:mm:ss'),
         updated_at: moment().format('YYYY:MM:DD HH:mm:ss')
       },
+      
+      {
+        id: uuid(),
+        ref_no: '4828986331',
+        exp_date: moment().add(7, 'days').format('YYYY:MM:DD HH:mm:ss'),
+        price: parseFloat('17000').toFixed(2),
+        no_of_member: 2,
+        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
+        price_per_member: parseFloat('17000') / 2,
+        admin_charges: parseFloat('500').toFixed(2),
+        is_completed: false,
+        animal_profile: 'https://www.africabusinessclassroom.com/wp-content/uploads/2016/11/IMG_20161110_144919-300x204.jpg',
+        color: 'grey',
+        weight: '220 kg',
+        breed: 'American LaMancha Goat',
+        butcher_id: butchers[0].id,
+        animal_type_id: animals[1].id,
+        created_at: moment().format('YYYY:MM:DD HH:mm:ss'),
+        updated_at: moment().format('YYYY:MM:DD HH:mm:ss')
+      },      
       {
         id: uuid(),
         ref_no: '4673209300',
-        exp_date: moment().add(3, 'days').format('YYYY:MM:DD HH:mm:ss'),
+        exp_date: moment().add(5, 'days').format('YYYY:MM:DD HH:mm:ss'),
         price: parseFloat('4000').toFixed(2),
         no_of_member: 1,
         description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
@@ -114,7 +134,26 @@ module.exports = {
         animal_type_id: animals[2].id,
         created_at: moment().format('YYYY:MM:DD HH:mm:ss'),
         updated_at: moment().format('YYYY:MM:DD HH:mm:ss')
-      }
+      },
+      {
+        id: uuid(),
+        ref_no: '4673207344',
+        exp_date: moment().add(10, 'days').format('YYYY:MM:DD HH:mm:ss'),
+        price: parseFloat('4500').toFixed(2),
+        no_of_member: 2,
+        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
+        price_per_member: parseFloat('4500') / 2,
+        admin_charges: parseFloat('500').toFixed(2),
+        is_completed: false,
+        animal_profile: 'http://coollind.com/wp-content/uploads/2017/05/kuroiler-chicken-in-zimbabwe-with-know-the-right-type-of-to-rear-for-profit.jpg',
+        color: 'brown',
+        weight: '120 kg',
+        breed: 'Kuroiler Chicken',
+        butcher_id: butchers[0].id,
+        animal_type_id: animals[2].id,
+        created_at: moment().format('YYYY:MM:DD HH:mm:ss'),
+        updated_at: moment().format('YYYY:MM:DD HH:mm:ss')
+      }      
     ], {});
 
   },
