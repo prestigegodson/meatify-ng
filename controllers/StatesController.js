@@ -7,7 +7,7 @@ const Cities = require("../db/models").Cities;
 module.exports = {
     getStates(req, res){
         States.findAll()
-        .then(states => res.status(201).send(states))
+        .then(states => res.status(200).send(states))
         .catch(err => res.status(400).send({msg:err.message}))
     },
     getStateById(req, res){
@@ -22,7 +22,7 @@ module.exports = {
             ],
             where: {id:req.params.id},
         })
-        .then(states => res.status(201).send(states))
+        .then(states => res.status(200).send(states))
         .catch(err => res.status(400).send({msg:err.message}))
     },
 } 

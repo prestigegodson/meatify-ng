@@ -22,7 +22,7 @@ module.exports = {
         ]);
         console.log(toSave);
         PickUpStations.create(toSave)
-            .then(stations => res.status(201).send({msg:"Pick Up station created successfully", data: stations}))
+            .then(stations => res.status(200).send({msg:"Pick Up station created successfully", data: stations}))
             .catch(err => res.status(401).send({msg: err.message}));
     },
 
@@ -51,7 +51,7 @@ module.exports = {
                 }                
             ],
             attributes: ['id', 'address', 'landmark', 'phone', 'workinghours']})
-            .then(stations => res.status(201).send(stations))
+            .then(stations => res.status(200).send(stations))
             .catch(err => res.status(401).send({ msg: err.message }));
     }
 

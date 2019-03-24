@@ -61,7 +61,7 @@ module.exports = {
         order: [
             ['id', 'DESC']
         ]})
-        .then(animals => res.status(201).send(animals))
+        .then(animals => res.status(200).send(animals))
         .catch(err => res.status(401).send({msg:err.message}));
     }
 }

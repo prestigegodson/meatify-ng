@@ -62,7 +62,7 @@ module.exports = {
                                 required: false
                             }
                         ] })
-                .then(platoons => res.status(201).send(platoons))
+                .then(platoons => res.status(200).send(platoons))
                 .catch(err => res.status(400).send({msg:err.message}));
     },
     getPlatoonById(req, res){
