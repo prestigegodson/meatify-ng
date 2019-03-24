@@ -5,7 +5,7 @@ var EmailTemplate = require('email-templates').EmailTemplate
 //Fetch HTML
 // var htmlstream = fs.createReadStream('mail/welcome_mail.html');
 
-class EventMailer extends EventEmitter{
+class EventSmsMessenger extends EventEmitter{
     constructor(){
         super();
         this.on('SEND_WELCOME_MAIL', this.sendMail);
@@ -40,4 +40,4 @@ class EventMailer extends EventEmitter{
     }
 }
 
-module.exports = EventMailer;
+module.exports = EventSmsMessenger;

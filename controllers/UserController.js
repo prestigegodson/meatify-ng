@@ -1,21 +1,28 @@
 'use strict'
 
-const config = require('config');
-const Users = require("../db/models").Users;
-const Roles = require("../db/models").Roles;
-const Orders = require("../db/models").Orders;
-const AddressBooks = require("../db/models").AddressBooks;
-const EventMailer = require("../events/EventMailer");
-const Mailer = new EventMailer();
-const uuid = require('uuid/v4');
-const Utility = require('../lib/Utility');
-const jwt = require("jwt-simple");
+const config        = require('config');
+const Users         = require("../db/models").Users;
+const Roles         = require("../db/models").Roles;
+const Orders        = require("../db/models").Orders;
+const AddressBooks  = require("../db/models").AddressBooks;
+const EventMailer   = require("../events/EventMailer");
+const SmsAbodeMessenger  = require("../events/SmsAbodeMessenger");
+const BetaSmsMessenger = require('../events/BetaSmsMessenger');
 
-const Sequelize = require("../db/models").Sequelize;
-const _ = require("lodash");
-const bcrypt = require('bcrypt');
+//Initialize events
+const Mailer        = new EventMailer();
+const SmsAbode      = new SmsAbodeMessenger();
+const BetaSms       = new BetaSmsMessenger();
 
-const Joi = require('joi');
+const uuid          = require('uuid/v4');
+const Utility       = require('../lib/Utility');
+const jwt           = require("jwt-simple");
+
+const Sequelize     = require("../db/models").Sequelize;
+const _             = require("lodash");
+const bcrypt        = require('bcrypt');
+
+const Joi           = require('joi');
 
 //User validation
 const schema = Joi.object().keys({
@@ -43,6 +50,9 @@ module.exports = {
                     var _token = Utility.generatePhoneValidationToken();
                     Users.update({ validation_token: _token },
                         { where: { email: user.email } }).then(user => { console.log(user) });
+                    
+                        BetaSms.emit('SEND_SMS', { token: _token, phone: user.phone_number});
+
                 } else {
                     Mailer.emit('SEND_WELCOME_MAIL', { email: user.email, last_login_ip: user.last_login_ip, activationUrl: uuid() });
                 }
