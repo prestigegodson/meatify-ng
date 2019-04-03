@@ -14,6 +14,10 @@ const TransController = require('../controllers').Transactions;
  * POST payment webhook using transaction reference
  */
 
+ router.get('/new-access-code', TransController.getNewAccessCode);
+
+ router.get('/verify/:reference', TransController.getReference);
+/*
  router.get('/:id', auth.authenticate(), TransController.getTransaction);
 
  router.get('/:id/order/:orderId', TransController.getTransactionByOrderID);
@@ -25,5 +29,5 @@ const TransController = require('../controllers').Transactions;
  router.put('/:id/status', TransController.updateTranStatus);
 
  router.post('/', TransController.create);
-
+*/
 module.exports = router;

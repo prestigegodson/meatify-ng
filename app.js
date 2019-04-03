@@ -41,6 +41,6 @@ app.use('/v1/api/butchers', butcherRouter);
 app.use('/v1/api/addressbooks', addressBooksRouter);
 app.use('/v1/api/stations', pickUpStationRouter);
 app.use('/v1/api/states', statesRouter);
-// app.use('/v1/api/transactions', transactionsRouter);
+app.use('/v1/api/transactions', transactionsRouter);
 
 module.exports = app;
