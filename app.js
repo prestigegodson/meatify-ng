@@ -30,17 +30,17 @@ app.use(auth.initialize());
 app.use(cors());
 
 
-app.use('/v1/api/', indexRouter);
-app.use('/v1/api/auth', tokenRouter);
-app.use('/v1/api/users', usersRouter);
-app.use('/v1/api/admin', adminRouter);
-app.use('/v1/api/meatify', animalRouter);
+app.use('/api/v1/', indexRouter);
+app.use('/api/v1/auth', tokenRouter);
+app.use('/api/v1/users', usersRouter);
+app.use('/api/v1/admin', adminRouter);
+app.use('/api/v1/meatify', animalRouter);
 // app.use('/v1/api/orders', ordersRouter);
-app.use('/v1/api/platoons', platoonRouter);
-app.use('/v1/api/butchers', butcherRouter);
-app.use('/v1/api/addressbooks', addressBooksRouter);
-app.use('/v1/api/stations', pickUpStationRouter);
-app.use('/v1/api/states', statesRouter);
-app.use('/v1/api/transactions', transactionsRouter);
+app.use('/api/v1/platoons', platoonRouter);
+app.use('/api/v1/butchers', butcherRouter);
+app.use('/api/v1/addressbooks', addressBooksRouter);
+app.use('/api/v1/stations', pickUpStationRouter);
+app.use('/api/v1/states', statesRouter);
+app.use('/api/v1/transactions', transactionsRouter);
 
 module.exports = app;
