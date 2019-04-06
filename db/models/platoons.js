@@ -114,6 +114,12 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: {name: 'platoon_id'}
     });
 
+    Platoons.belongsToMany(models.Orders, { 
+      through: models.OrdersPlatoons,
+      as: 'order', 
+      foreignKey: {name: 'platoon_id'}
+    });     
+
     Platoons.hasMany(models.Orders, {
       foreignKey: {name: 'platoon_id'},
       as: 'orders',

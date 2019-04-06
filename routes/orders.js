@@ -17,10 +17,10 @@ router.post('/', OrdersController.create);
 
 router.get('/', OrdersController.fetchOrders);
 
-router.get('/:id', OrdersController.getOrderById);
+router.get('/:order_no', OrdersController.getOrderByRef);
 
 router.get('/user/:userId', OrdersController.getAllOrderByUserID);
-
+/*
 router.get('/:id/status', OrdersController.getOrderStatus);
 
 router.put('/:id/status'. OrdersController.updateStatus);
@@ -28,5 +28,5 @@ router.put('/:id/status'. OrdersController.updateStatus);
 router.get('/:id/user/:userId', OrdersController.getOrderByIdANDUserID);
 
 router.get('/:id/platoon', OrdersController.getPlatoonInfo);
-
+*/
 module.exports = router;

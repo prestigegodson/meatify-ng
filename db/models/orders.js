@@ -11,10 +11,20 @@ module.exports = (sequelize, DataTypes) => {
       allowNull:false,
       defaultValue: () => uuid()
     },
+    order_no: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+    },
     status: {
       type:   DataTypes.ENUM,
       values: ['PROCESSING', 'COMPLETED'],
       defaultValue: 'PROCESSING'
+    },
+    delivery_type: {
+      type: DataTypes.ENUM,
+      values: ['STANDARD', 'PICKUP'],
+      defaultValue: 'STANDARD'
     }
   }, {
     underscored: true,
@@ -27,20 +37,37 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     });
 
+    Orders.hasOne(models.Transactions);
+    
+    /*
     Orders.belongsTo(models.Delivery, {
       foreignKey: {name: 'delivery_id'},
       allowNull: false
-    });    
+    });
+    */   
 
     Orders.belongsTo(models.AddressBooks, {
       foreignKey: {name: 'address_book_id'},
-      allowNull: false
+      as: 'address',
+      allowNull: true
     });
 
-    Orders.belongsTo(models.Platoons, {
-      foreignKey: {name: 'platoon_id'},
-      allowNull: false
-    })
+    // Orders.belongsTo(models.Platoons, {
+    //   foreignKey: {name: 'platoon_id'},
+    //   allowNull: false
+    // });
+
+    Orders.belongsTo(models.PickUpStations, {
+      foreignKey: {name: 'pick_up_id'},
+      allowNull: true
+    });
+
+    Orders.belongsToMany(models.Platoons, { 
+      through: models.OrdersPlatoons,
+      as: 'platoons', 
+      foreignKey: {name: 'order_id'}
+    });    
+
   };
 
   //check if platoon is completed

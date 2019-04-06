@@ -12,15 +12,24 @@ module.exports = (sequelize, DataTypes) => {
     },
     transaction_ref: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      unique: true,
     },
     transaction_type: {
       type: DataTypes.STRING,
       allowNull: false
     },
-    amount: {
+    items_amount: {
       type: DataTypes.DECIMAL,
       allowNull:false
+    },
+    total_charge: {
+      type: DataTypes.DECIMAL,
+      allowNull:false      
+    },
+    delivery_charge: {
+      type: DataTypes.DECIMAL,
+      allowNull:true      
     },
     payment_status: {
       type: DataTypes.ENUM,
@@ -35,7 +44,8 @@ module.exports = (sequelize, DataTypes) => {
     // associations can be defined here
     Transactions.belongsTo(models.Orders, {
       foreignKey: {name: 'order_id'},
-      allowNull: false,      
+      as: 'orders',
+      allowNull: false,
     })
   };
   return Transactions;

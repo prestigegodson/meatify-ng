@@ -10,7 +10,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var tokenRouter = require('./routes/token');
 var adminRouter = require('./routes/admin');
-var ordersRouter = require('./routes/');
+var ordersRouter = require('./routes/orders');
 var platoonRouter = require('./routes/platoons');
 var butcherRouter = require('./routes/butchers');
 var addressBooksRouter = require('./routes/addressBooks');
@@ -30,17 +30,17 @@ app.use(auth.initialize());
 app.use(cors());
 
 
-app.use('/api/v1/', indexRouter);
-app.use('/api/v1/auth', tokenRouter);
-app.use('/api/v1/users', usersRouter);
-app.use('/api/v1/admin', adminRouter);
-app.use('/api/v1/meatify', animalRouter);
-// app.use('/v1/api/orders', ordersRouter);
+app.use('/api/v1/',         indexRouter);
+app.use('/api/v1/auth',     tokenRouter);
+app.use('/api/v1/users',    usersRouter);
+app.use('/api/v1/admin',    adminRouter);
+app.use('/api/v1/meatify',  animalRouter);
+app.use('/api/v1/orders',   ordersRouter);
 app.use('/api/v1/platoons', platoonRouter);
 app.use('/api/v1/butchers', butcherRouter);
 app.use('/api/v1/addressbooks', addressBooksRouter);
 app.use('/api/v1/stations', pickUpStationRouter);
-app.use('/api/v1/states', statesRouter);
+app.use('/api/v1/states',   statesRouter);
 app.use('/api/v1/transactions', transactionsRouter);
 
 module.exports = app;
