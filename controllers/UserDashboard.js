@@ -34,7 +34,7 @@ module.exports = {
      */
  
     getUserInfo(req, res) {
-        console.log('dashboard');
+        // console.log('dashboard');
         Users.findOne({ 
             where: { id: req.user.id }, 
             include: [
@@ -52,7 +52,9 @@ module.exports = {
                 // {model: Activities},
                 // {model: CardInfo},
             ] 
-        }).then(response => res.status(201).send(response)).catch();
+        })
+            .then(response => res.status(201).send(response))
+            .catch();
     }
 
 }

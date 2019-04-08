@@ -67,7 +67,7 @@ module.exports = {
         });
     },
 
-    async processPayment(req, res) {
+    processPayment(req, res) {
         /**
          * Expected parameters
          * String transactionRef
