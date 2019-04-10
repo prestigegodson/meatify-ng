@@ -7,7 +7,7 @@ const Orders        = require('../db/models').Orders;
 const Transactions  = require('../db/models').Transactions;
 const uuid          = require('uuid/v4');
 const _             = require("lodash");
-const seq           = require('../db/models');
+const seq           = require('../db/models').sequelize;
 
 const EventMailer   = require("../events/EventMailer");
 const Mailer        = new EventMailer();
@@ -83,7 +83,7 @@ module.exports = {
         const payload   = req.body;
         const userId    = req.user.id;
         
-        seq.sequelize.transaction(t => {
+        seq.transaction(t => {
 
             let platoonLists = [];
 
@@ -110,7 +110,7 @@ module.exports = {
                     total_charge:       payload.total_amount,
                     items_amount:       payload.item_amount,
                     delivery_charge:    payload.delivery_amount,
-                    payment_status:     'successful',
+                    payment_status:     payload.status,
                     order_id:           orders.id,
 
                 }, {transaction: t}).then(trnx => {

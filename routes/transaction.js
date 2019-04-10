@@ -18,7 +18,7 @@ const TransController = require('../controllers').Transactions;
 
  router.get('/verify/:reference', TransController.getReference);
 
- router.post('/processpay', TransController.processPayment)
+ router.post('/processpay', auth.authenticate(), TransController.processPayment)
 /*
  router.get('/:id', auth.authenticate(), TransController.getTransaction);
 
