@@ -94,16 +94,7 @@ module.exports = {
                 address_book_id:    payload.address_book,
                 pick_up_id:         payload.pick_up,//<= add this to order
             },{transaction: t}).then(orders => {
-                
-                payload.platoons.map((id, index) => {
-                    //platoon add new user
-                    Platoons.findById(id).then(platoon => {
-                        platoon.setUsers([userId]);
-                        orders.setPlatoons([platoon.id]);
-                        platoonLists.push(platoon);
-                    });
-                });
-                
+                                
                 return Transactions.create({
                     transaction_ref:    payload.transaction_ref,
                     transaction_type:   payload.transaction_type,
@@ -115,6 +106,16 @@ module.exports = {
 
                 }, {transaction: t}).then(trnx => {
                     //send order mail
+
+                    payload.platoons.map((id, index) => {
+                        //platoon add new user
+                        return Platoons.findOne({where:{id: id}}).then(platoon => {
+                            platoon.setUsers([userId]);
+                            orders.setPlatoons([platoon.id]);
+                            platoonLists.push(platoon);
+                        });
+                    });
+
                     Mailer.emit('SEND_ORDER_MAIL', 
                                 { 
                                     orders: orders, 
