@@ -82,11 +82,11 @@ module.exports = {
          */
         const payload   = req.body;
         const userId    = req.user.id;
+        let orderInfo   = {};
         
         seq.transaction(t => {
 
             let platoonLists = [];
-            let orderInfo = {};
 
             return Orders.create({
                 user_id:            userId,
@@ -130,7 +130,7 @@ module.exports = {
 
         })
             .then(result => res.status(200).send({msg: "Your order has been placed", data: orderInfo}))
-            .catch(err => res.status(400).send(err));
+            .catch(err => res.status(400).send(err.message));
     }
 
     /*
