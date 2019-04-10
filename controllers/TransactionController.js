@@ -86,6 +86,7 @@ module.exports = {
         seq.transaction(t => {
 
             let platoonLists = [];
+            let orderInfo = {};
 
             return Orders.create({
                 user_id:            userId,
@@ -94,6 +95,8 @@ module.exports = {
                 address_book_id:    payload.address_book,
                 pick_up_id:         payload.pick_up,//<= add this to order
             },{transaction: t}).then(orders => {
+
+                orderInfo = orders;
                                 
                 return Transactions.create({
                     transaction_ref:    payload.transaction_ref,
@@ -126,7 +129,7 @@ module.exports = {
             })     
 
         })
-            .then(result => res.status(200).send({msg: "Your order has been placed", data: result}))
+            .then(result => res.status(200).send({msg: "Your order has been placed", data: orderInfo}))
             .catch(err => res.status(400).send(err));
     }
 
