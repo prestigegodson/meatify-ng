@@ -101,7 +101,7 @@ module.exports = {
                     total_charge:       payload.total_amount,
                     items_amount:       payload.item_amount,
                     delivery_charge:    payload.delivery_amount,
-                    payment_status:     payload.status,
+                    payment_status:     'successful',
                     order_id:           orders.id,
 
                 }, {transaction: t}).then(trnx => {
