@@ -6,6 +6,8 @@ const AddressBooks      = require('../db/models').AddressBooks;
 const PickUpStations    = require('../db/models').PickUpStations;
 const States            = require('../db/models').States;
 const Cities            = require('../db/models').Cities;
+const Users             = require('../db/models').Users;
+const PlatoonImage      = require('../db/models').PlatoonImage;
 
 const utility           = require('../lib/Utility');
 const _                 = require('lodash');
@@ -59,7 +61,19 @@ module.exports = {
                 {
                     model : Platoons,
                     as: 'platoons',
-                    through: { attributes: [] }
+                    through: { attributes: [] },
+                    include:[
+                        {
+                            model: PlatoonImage,
+                            as: 'images',
+                            required: false
+                        },{
+                            model: Users,
+                            as: 'users',
+                            required: false,
+                            attributes: ['id', 'email', 'profile_pic_url'],                            
+                        }
+                    ]
                 },
                 {
                     model: Transactions,
@@ -89,7 +103,19 @@ module.exports = {
                     {
                         model : Platoons,
                         as: 'platoons',
-                        through: { attributes: [] }
+                        through: { attributes: [] },
+                        include: [
+                            {
+                                model: PlatoonImage,
+                                as: 'images',
+                                required: false
+                            },{
+                                model: Users,
+                                as: 'users',
+                                required: false,
+                                attributes: ['id', 'email', 'profile_pic_url'],                            
+                            }                            
+                        ]
                     },
                     {
                         model: Transactions,
