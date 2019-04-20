@@ -7,19 +7,20 @@ const UsersController = require('../controllers').Users;
 const DashboardController = require('../controllers').Dashboard;
 
 /** Create a new User */
-router.post('/', UsersController.create);
-
-router.get('/dashboard', auth.authenticate(), DashboardController.getUserInfo)
+router.post('/register', UsersController.create);
 
 /** Change password */
-router.put('/changePassword', auth.authenticate(), UsersController.changePassword);
+router.put('/password_reset', UsersController.changePassword);
+
+/** User Activities */
+router.get('/dashboard', auth.authenticate(), DashboardController.getUserInfo);
+
+router.post('/validatephone', auth.authenticate(), UsersController.validatePhoneNumber);
 
 /** User profile information */
-router.get('/profile',  auth.authenticate(), UsersController.profile);
+router.get('/profile', auth.authenticate(), UsersController.profile);
 
 /** Upload images */
-router.post('/upload',  auth.authenticate(), UsersController.upload);
-
-router.post('/validatephone', UsersController.validatePhoneNumber);
+router.post('/upload', auth.authenticate(), UsersController.upload);
 
 module.exports = router;

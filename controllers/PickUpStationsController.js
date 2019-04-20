@@ -20,10 +20,9 @@ module.exports = {
             'state_id',
             'city_id'
         ]);
-        console.log(toSave);
         PickUpStations.create(toSave)
-            .then(stations => res.status(200).send({msg:"Pick Up station created successfully", data: stations}))
-            .catch(err => res.status(401).send({msg: err.message}));
+            .then(stations => res.status(200).send(Utility.successResp("Pick Up station created successful!", stations)))
+            .catch(err => res.status(401).send(Utility.errorResp(err.message, null)));
     },
 
     getPickUpStations(req, res) {
@@ -51,8 +50,45 @@ module.exports = {
                 }                
             ],
             attributes: ['id', 'address', 'landmark', 'phone', 'workinghours']})
-            .then(stations => res.status(200).send(stations))
-            .catch(err => res.status(401).send({ msg: err.message }));
+            .then(stations => res.status(200).send(Utility.successResp("", stations)))
+            .catch(err => res.status(401).send(Utility.errorResp(err.message, null)));
+    },
+    getPickUpStationsByID(req, res){
+        const STATION_ID = req.params.id;
+        PickUpStations.findOne({where:{id:STATION_ID}}).then(stations => {
+            if(_.isNull(stations)) return res.status(404).send(Utility.errorResp("PickUp Station not found", ""));
+            res.status(200).send(Utility.successResp("", stations));
+        }).catch(err => res.status(400).send(Utility.errorResp(err.message, "")));
+    },
+    updatePickUpStations(req, res){
+        const toUpdate = _.pick(req.body, [
+            'address',
+            'landmark',
+            'phone',
+            'workinghours',
+            'state_id',
+            'city_id'
+        ]); 
+        PickUpStations.update(toUpdate, {where: {id:req.params.id}}).then(pickUp => {
+            res.status(200).send(Utility.successResp("Update Successful!", pickUp));
+        }).catch(err => res.status(Utility.errorResp(err.message, "")));
+    },
+
+    deletePickUpStations(req, res){
+        const STATION_ID = req.params.id;
+        PickUpStations.findOne({where:{id:STATION_ID}}).then(stations => {
+            if(_.isNull(stations)) return res.status(404).send(Utility.errorResp("PickUp Station not found", ""));
+            stations.getOrders().then(associatedOrder => {
+                if(_.isEmpty(associatedOrder)){
+                    PickUpStations.destroy({where: {id: STATION_ID}}).then(pickUp => {
+                        res.status(200).send(Utility.successResp("PickUp Deleted!", pickUp));
+                    })
+                }else{
+                    res.status(400).send(Utility.errorResp("Pick Up Station is attached to one or more Order, can't delete", stations));
+                }
+                
+            })
+        });        
     }
 
 }

@@ -29,7 +29,7 @@ const schema = Joi.object().keys({
     email: Joi.string().email({ minDomainAtoms: 2 }),
     phone_number: Joi.string().optional(),
     password: Joi.string().required(),
-    //password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/),
+    // password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/),
     is_admin: Joi.boolean().optional()
 });
 
@@ -39,7 +39,7 @@ module.exports = {
         const { error, value } = Joi.validate(req.body, schema);
         console.log(error);
         if (error) {
-            return res.status(401).send({ msg: 'One of the field(s) is empty, check and try again!' });
+            return res.status(400).send(Utility.errorResp('One of the field(s) is empty, check and try again!'));
         }
         //should return 
         Users
@@ -56,31 +56,36 @@ module.exports = {
                 } else {
                     Mailer.emit('SEND_WELCOME_MAIL', { email: user.email, last_login_ip: user.last_login_ip, activationUrl: uuid() });
                 }
-                res.status(201).send(user);
+                res.status(200).send(Utility.successResp(user));
             })
             .catch(Sequelize.ValidationError, err => {
-                res.status(401).send({ msg: err.errors[0].message });
+                res.status(400).send(Utility.errorResp(err.errors[0].message));
             })
-            .catch(err => res.status(401).send({ msg: err.message }))
+            .catch(err => res.status(401).send(Utility.errorResp(err.message)))
     },
 
     /** Change password */
     changePassword(req, res) {
-        let { old_password, new_password } = req.body;
-        if (old_password == new_password) return res.status(401).send({ msg: 'New password and old password are the same, please check and try again' });
+        let { email, password, password_confirmation } = req.body;
+        if (password == password_confirmation) 
+            return res.status(400).send(Utility.errorResp('password and password confirmation are the same, try again!'));
 
-        Users.findOne({ where: { email: req.user.email } }).then(user => {
-            const check = Users.isPassword(user.password, old_password);
+        Users.findOne({ where: { email: email } }).then(user => {
+            //check if user is none
+            if(user == null){
+                return res.status(400).send(Utility.successResp('Something went wrong, unable to find User'));
+            }
+            const check = Users.isPassword(user.password, password);
             if (check) { //means the password is correct
 
                 const salt = bcrypt.genSaltSync(10);
-                new_password = bcrypt.hashSync(new_password, salt);
+                password_confirmation = bcrypt.hashSync(password_confirmation, salt);
 
-                Users.update({ password: new_password }, { where: { email: req.user.email } })
-                    .then(instance => res.status(201).send({ msg: 'Password update successful!' }))
-                    .catch(err => res.status(401).send({ msg: err.message }));
+                Users.update({ password: password_confirmation }, { where: { email: email } })
+                    .then(instance => res.status(200).send(Utility.successResp("Password update successfully!")))
+                    .catch(err => res.status(400).send(Utility.errorResp(err.message)));
             } else {
-                res.status(401).send({ msg: 'Something went wrong, incorrect credentials' });
+                res.status(400).send(Utility.errorResp('Something went wrong, incorrect credentials'));
             }
         });
     },
@@ -117,8 +122,10 @@ module.exports = {
 
     /** Validate User's phone number */
     validatePhoneNumber(req, res) {
-        let { id, email, otp, phone } = req.body;
-        Users.find({ where: { id: id } }).then(user => {
+        const { email, otp, phone } = req.body;
+        const USERID = req.user.id;
+
+        Users.findOne({ where: { id: USERID } }).then(user => {
             //if found
             if (user.validation_token == otp) {
                 //validation succeed! 
@@ -127,8 +134,8 @@ module.exports = {
                         email: user.email
                     }
                 }).then(new_user => {
-                    const payload = _.pick(user, ['id', 'email', 'phone_number', 'is_admin']);
-                    const _token = jwt.encode(payload, config.get("secretOrKey"));
+                    const payload   = _.pick(user, ['id', 'email', 'phone_number', 'is_admin']);
+                    const _token    = jwt.encode(payload, config.get("secretOrKey"));
 
                     var resposeObject = {
                         token: _token,
@@ -145,10 +152,10 @@ module.exports = {
                     res.status(200).json(resposeObject);
                 });
             } else {
-                res.status(401).send({ msg: 'Incorrect token, kindly, check and try again' });
+                res.status(401).send(Utility.errorResp('Incorrect token, kindly, check and try again', null));
             }
         }).catch(err => {
-            res.status(401).send({ msg: err.message });
+            res.status(401).send(Utility.errorResp(err.message, null));
         });
     }
 }

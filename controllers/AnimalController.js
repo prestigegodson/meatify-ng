@@ -3,16 +3,19 @@
 /** Libs */
 const _ = require('lodash');
 const Sequelize = require("../db/models").Sequelize;
+const sequelize = require("../db/models").sequelize;
 
 /** Models */
-const Platoons =  require('../db/models').Platoons;
-const Animals =  require('../db/models').Animals;
-const PlatoonImage =  require('../db/models').PlatoonImage;
-const Users =  require('../db/models').Users;
+const Platoons      =  require('../db/models').Platoons;
+const Animals       =  require('../db/models').Animals;
+const PlatoonImage  =  require('../db/models').PlatoonImage;
+const Users         =  require('../db/models').Users;
+const utility       = require('../lib/Utility');
  
 module.exports = {
-    index(req, res){
-        Animals.findAll({include: [
+    getMeatify(req, res){
+        Animals.findAll({       
+            include: [
             {
                 model: Platoons,
                 as: 'platoons',
@@ -61,7 +64,68 @@ module.exports = {
         order: [
             ['id', 'DESC']
         ]})
-        .then(animals => res.status(200).send(animals))
-        .catch(err => res.status(401).send({msg:err.message}));
+        .then(animals => res.status(200).send(utility.successResp(null, animals)))
+        .catch(err => res.status(400).send(utility.errorResp(err.message, null)));
+    },
+
+    index(req, res){
+        Animals.findAll(
+            {
+                attributes: [
+                    'id',
+                    'animal_type',
+                    [sequelize.literal('(SELECT COUNT(*) FROM Platoons WHERE Platoons.animal_type_id = Animals.id)'), 'platoonCount']
+                ],
+                include: [
+                {
+                    model: Platoons,
+                    as: 'platoons',
+                    required: false,
+                    // attributes: [],
+                    duplicating: false               
+                }
+            ],
+            order: [[sequelize.literal('platoonCount'), 'DESC']]
+        }
+        ).then(animals => res.status(200).send(utility.successResp(null, animals)))
+    },
+
+    createAnimal(req, res){
+        Animals
+            .findOne({where: {animal_type: req.body.animal_type}})
+            .then(animal => {
+                if(animal == null){
+                    Animals.create(_.pick(req.body, ['animal_type']))
+                           .then(a => res.status(200).send(utility.successResp("Animal create successfully!", a)))
+                           .catch(err => res.status(400).send(utility.errorResp(err.message, null)))
+                }else{
+                    res.status(200).send(utility.successResp("Animal create successfully!", animal));
+                }
+            });
+    },
+
+    updateAnimal(req, res){
+        Animals.update(_.pick(req.body, ['animal_type']), {where: {id: req.params.id}})
+               .then(animal => res.status(200).send(utility.successResp("Update successsfully!", animal)))
+               .catch(err => res.status(400).send(utility.errorResp(err.message, null)));
+    },
+
+    deleteAnimal(req, res){
+        //check if any platoon is associated
+        Animals.findOne({where: {id: req.params.id}}).then(animal => {
+            
+            if(_.isNull(animal)) return res.status(404).send(utility.errorResp("Animal Not Found!", null));
+
+            animal.getPlatoons().then(associatedPlatoons => {
+                if(_.isEmpty(associatedPlatoons)){
+                    Animals.destroy({where: {id: req.params.id}}).then(deletedAnimal => {
+                        res.status(200).send(utility.successResp("Delete successfully!", deletedAnimal));
+                    })
+                }else{
+                    res.status(200).send(utility.successResp("Can't delete Animal, is associated with platoons", animal));
+                }
+            }).catch(err => res.status(400).send(utility.errorResp(err.message, null)))
+        });
     }
+
 }

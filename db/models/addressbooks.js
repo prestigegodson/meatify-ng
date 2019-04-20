@@ -65,6 +65,12 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     })
 
+    AddressBooks.hasMany(models.Orders, {
+      foreignKey: {name: 'address_book_id'},
+      as: 'orders',
+      hooks: true
+    });       
+
     AddressBooks.belongsTo(models.States, { foreignKey: 'state_id', as: 'state' });
     AddressBooks.belongsTo(models.Cities, { foreignKey: 'city_id', as: 'city' });
   };

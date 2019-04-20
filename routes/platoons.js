@@ -31,11 +31,11 @@ const utility = require('../lib/Utility');
  router.get('/ref_no/:ref_no', [auth.authenticate()], platoonController.getPlatoonByRefNo);
 
  router.get('/:id/is_completed', platoonController.isPlatoonCompleted);
-
+/*
  router.get('/:id/butcher/:butcher_id', platoonController.getButcherInfo);
 
  router.get('/:id/users', platoonController.getPlatoonWithUsers);
 
  router.get('/:id/orders', platoonController.getPlatoonWithOrders);
-
+*/
  module.exports = router;

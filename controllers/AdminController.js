@@ -89,5 +89,6 @@ module.exports = {
         Roles.destroy({where: {id: ROLE_ID}})
              .then(result => res.status(200).send({msg: 'Delete successfully!'}))
              .catch(err => res.status(404).send({msg: err.message}));
-    }
+    },
+
 }

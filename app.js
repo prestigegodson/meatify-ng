@@ -34,7 +34,7 @@ app.use('/api/v1/',         indexRouter);
 app.use('/api/v1/auth',     tokenRouter);
 app.use('/api/v1/users',    usersRouter);
 app.use('/api/v1/admin',    adminRouter);
-app.use('/api/v1/meatify',  animalRouter);
+app.use('/api/v1/animals',  animalRouter);
 app.use('/api/v1/orders',   ordersRouter);
 app.use('/api/v1/platoons', platoonRouter);
 app.use('/api/v1/butchers', butcherRouter);

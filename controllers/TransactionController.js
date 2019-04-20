@@ -7,6 +7,7 @@ const Orders        = require('../db/models').Orders;
 const Transactions  = require('../db/models').Transactions;
 const uuid          = require('uuid/v4');
 const _             = require("lodash");
+const sequelize     = require("../db/models").sequelize;
 const seq           = require('../db/models').sequelize;
 
 const EventMailer   = require("../events/EventMailer");
@@ -15,15 +16,18 @@ const Mailer        = new EventMailer();
 module.exports = {
 
     async getNewAccessCode(req, res) {
-        const customerId = req.query.customerid;
-        const platoonId = req.query.cartid;
+        const customerId    = req.query.customerid;
+        const platoonId     = req.query.cartid;
         // const deliveryType  = req.query.deliverid;
         // const addressID     = req.query.addressid;
         // const pickUpID      = req.query.pickupid;
 
-        var customer = await Users.findById(customerId);
-        var platoon = await Platoons.findById(platoonId);
-        var amount = platoon.price_per_member;
+        var customer        = await Users.findById(customerId);
+        var platoon         = await Platoons.findById(platoonId);
+        var amount          = platoon.price_per_member;
+
+        const customFields = [];
+
 
         try {
             paystack.transaction.initialize({
@@ -34,9 +38,9 @@ module.exports = {
                 metadata: {
                     custom_fields: [
                         {
-                            "display_name": "Started From",
-                            "variable_name": "started_from",
-                            "value": "sample charge card backend"
+                            "display_name": "Started From",//userID
+                            "variable_name": "started_from",//cart
+                            "value": "sample charge card backend"//price
                         },
                     ]
                 }
@@ -45,7 +49,7 @@ module.exports = {
                     res.send({ error: error });
                     return;
                 }
-                res.send({ access_code: body.data.access_code });
+                res.send(utility.successResp("", body.data));
             });
 
         } catch (err) { console.log(err) }
@@ -63,11 +67,11 @@ module.exports = {
                 var auth = body.authorization;
                 console.log(auth);
             }
-            res.send(body);
+            res.send(utility.successResp("", body));
         });
     },
 
-    processPayment(req, res) {
+    async processPayment(req, res) {
         /**
          * Expected parameters
          * String transactionRef
@@ -112,9 +116,9 @@ module.exports = {
 
                     payload.platoons.map((id, index) => {
                         //platoon add new user
-                        return Platoons.findOne({where:{id: id}}).then(platoon => {
-                            platoon.setUsers([userId]);
-                            orders.setPlatoons([platoon.id]);
+                        return Platoons.findOne({where:{id: id}}).then( async function(platoon) {
+                            await platoon.setUsers([userId]);
+                            await orders.setPlatoons([platoon.id]);
                             platoonLists.push(platoon);
                         });
                     });
@@ -131,14 +135,53 @@ module.exports = {
         })
             .then(result => res.status(200).send({msg: "Your order has been placed", data: orderInfo}))
             .catch(err => res.status(400).send(err.message));
+    },
+    getAllTransactions(req, res){
+        const { Op } = sequelize;
+        const options = {
+            page: 1,
+            paginate: 25,
+            order: [['created_at', 'DESC']],
+        }        
+        Transactions.paginate(options)
+                    .then((docs, pages, total) => res.status(200).send(utility.successResp("", {docs, pages, total})))
+                    .catch(err => res.status(400).send(utility.errorResp(err.message, "")));
+    },
+    getTransByID(req, res){
+        const TRANSACTION_ID = req.params.id;
+        Transactions
+                    .findOne({where:{id:TRANSACTION_ID}, 
+                        include:[
+                            {
+                                model:Orders, 
+                                as: 'order',
+                                include: [
+                                    {model:Platoons, as: 'platoons'},
+                                    {model:Users, as: 'user', attributes:['id','email','profile_pic_url']}
+                                ]
+                            }
+                        ]
+                    })
+                    .then(transaction => res.status(200).send(utility.successResp("", transaction)))
+                    .catch(err => res.status(400).send(utility.errorResp(err.message,"")));
+    },
+    
+    getTransactionByRef(req, res){
+        const REF_ID = req.params.ref;
+        Transactions
+                    .findOne({where:{transaction_ref:REF_ID}, 
+                        include:[
+                            {
+                                model:Orders, 
+                                as: 'order',
+                                include: [
+                                    {model:Platoons, as: 'platoons'},
+                                    {model:Users, as: 'user', attributes:['id','email','profile_pic_url']}
+                                ]
+                            }
+                        ]
+                    })
+                    .then(transaction => res.status(200).send(utility.successResp("", transaction)))
+                    .catch(err => res.status(400).send(utility.errorResp(err.message,"")));        
     }
-
-    /*
-    getTransaction(req, res){},
-    getTransactionByOrderID(req, res){},
-    getTransactionByRef(req, res){},
-    getTransactionStatus(req, res){},
-    updateTranStatus(req, res){},
-    create(req, res){}
-    */
 }

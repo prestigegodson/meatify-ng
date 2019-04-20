@@ -19,7 +19,7 @@ const utility =  require('../lib/Utility');
 
  router.get('/:id', ButchersController.getButcherById);
 
- router.put(':/id', [auth.authenticate(), utility.verifyAdmin], ButchersController.updateButcher);
+ router.put('/:id', [auth.authenticate(), utility.verifyAdmin], ButchersController.updateButcher);
 
  router.delete('/:id', [auth.authenticate(), utility.verifyAdmin], ButchersController.deleteButcher);
 

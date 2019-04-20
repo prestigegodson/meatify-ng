@@ -16,12 +16,12 @@ const auth = require('../auth/auth');
 
  router.get('/', auth.authenticate(), AddressBookController.getAddress);
 
- router.get('/:id', auth.authenticate(), AddressBookController.getAddressUserAddresses);
+ router.get('/:id', auth.authenticate(), AddressBookController.getUserAddresses);
 
  router.put('/:id', auth.authenticate(), AddressBookController.updateAddress);
 
  router.delete('/:id', auth.authenticate(), AddressBookController.deleteAddress);
 
- router.delete('/:id/user/:userId', auth.authenticate(), AddressBookController.deleteAddressByIdAndUserId);
+//  router.delete('/:id/user/:userId', auth.authenticate(), AddressBookController.deleteAddressByIdAndUserId);
 
 module.exports = router;

@@ -1,8 +1,9 @@
 /** Transaction Router */
 
-const auth = require('../auth/auth');
-var express = require('express');
-var router = express.Router();
+const auth      = require('../auth/auth');
+var express     = require('express');
+var router      = express.Router();
+const utility   = require('../lib/Utility');
 
 const TransController = require('../controllers').Transactions;
 
@@ -13,14 +14,20 @@ const TransController = require('../controllers').Transactions;
  * PUT update transaction status
  * POST payment webhook using transaction reference
  */
+ 
+ router.get('/new-access-code', auth.authenticate(), TransController.getNewAccessCode);
 
- router.get('/new-access-code', TransController.getNewAccessCode);
+ router.get('/verify/:reference', auth.authenticate(), TransController.getReference);
 
- router.get('/verify/:reference', TransController.getReference);
+ router.post('/process-payment', auth.authenticate(), TransController.processPayment);
 
- router.post('/processpay', auth.authenticate(), TransController.processPayment)
+ router.get('/', [auth.authenticate(), utility.verifyAdmin], TransController.getAllTransactions);
+
+ router.get('/:id', auth.authenticate(), TransController.getTransByID);
+
+ router.get('/trnx_ref/:ref', auth.authenticate(), TransController.getTransactionByRef);
+
 /*
- router.get('/:id', auth.authenticate(), TransController.getTransaction);
 
  router.get('/:id/order/:orderId', TransController.getTransactionByOrderID);
 

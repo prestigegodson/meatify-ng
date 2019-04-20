@@ -1,9 +1,10 @@
 'use strict'
 
-const config = require('config');
-const jwt = require("jwt-simple");
-const _ = require('lodash');
-const Joi = require('joi');
+const config    = require('config');
+const jwt       = require("jwt-simple");
+const _         = require('lodash');
+const Joi       = require('joi');
+const utility   = require('../lib/Utility'); 
 
 const passport = require('passport');
 const {Strategy, ExtractJwt} = require('passport-jwt');
@@ -12,7 +13,8 @@ const Users = require("../db/models").Users;
 
 const loginSchema = Joi.object().keys({
     email: Joi.string().email({ minDomainAtoms: 2 }),
-    password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/)
+    password: Joi.string().required(),
+    // password:  Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/)
 });
 
 module.exports = {
@@ -25,7 +27,7 @@ module.exports = {
             Users.findOne({where: {email: email}})
                 .then(user => {
                     if(user == null){
-                        res.status(404).send({msg: 'Email address or password not found, check and try again!'});
+                        res.status(400).send(utility.errorResp('Email address or password not found, check and try again!', null));
                     }else if(Users.isPassword(user.password, password)){
                         const payload = _.pick(user, ['id', 'email', 'phone_number', 'is_admin']);
                         const _token = jwt.encode(payload, config.get("secretOrKey"));
@@ -42,11 +44,11 @@ module.exports = {
                             }
                         })
                     }else{
-                        res.status(401).send({msg: 'Incorrect login credentials, check and try again!'});
+                        res.status(400).send(utility.errorResp('Incorrect login credentials, check and try again!', null));
                     }
-                }).catch(error => res.status(401).json({msg: error.message}));
+                }).catch(error => res.status(400).json(utility.errorResp(error.message, null)));
         }else{
-            res.status(401).send({msg:error.message});
+            res.status(400).send(utility.errorResp(error.message, null));
         }
     },    
 }

@@ -22,8 +22,8 @@ module.exports = {
                             'city_id'
                         ]);
         Utility.createNewModel(AddressBooks, toSave, (err, addressBook) => {
-            if(err) return res.status(404).send({msg: err.message});
-            res.status(200).send(addressBook);
+            if(err) return res.status(404).send(Utility.errorResp(err.message, null));
+            res.status(200).send(Utility.successResp("", addressBook));
         });
     },
     updateAddress(req, res){
@@ -39,15 +39,25 @@ module.exports = {
             ]);        
         AddressBooks
                 .update(toUpdate, {where: {id: req.params.id, user_id: req.user.id}})
-                .then(result => res.status(201).send(result))
-                .catch(err => res.status(401).send({msg: err.message}));
+                .then(result => res.status(201).send(Utility.successResp("Update Successful", result)))
+                .catch(err => res.status(401).send(Utility.errorResp(err.message, null)));
     },
     deleteAddress(req, res){
-        let id = req.params.id;
+        const ID = req.params.id;
+        const USERID = req.user.id;
         //check if the address is created by the user
-        AddressBooks.destory({where: {id: id}})
-                    .then(result => res.status(200).send({msg: 'Delete successfully!'}))
-                    .catch(err => res.status(404).send({msg: err.message}));
+        AddressBooks.findOne({where: {id: ID}}).then(addressBook => {
+            if(_.isNull(addressBook)) return res.status(404).send(Utility.errorResp("Address not Found in AddressBook", null));
+            addressBook.getOrders().then(associatedOrders => {
+                if(_.isEmpty(associatedOrders)){
+                    AddressBooks.destroy({where: {id: ID, user_id: USERID}})
+                                .then(result => res.status(200)
+                                    .send(Utility.successResp("Delete successful!", null)))           
+                }else{
+                    res.status(400).send(Utility.successResp("You can't delete Address, Address is associated to one or more Orders", null));
+                }
+            })
+        });
     },
     getAddress(req, res){
         AddressBooks
@@ -64,11 +74,10 @@ module.exports = {
                                 required: false,
                             }
                         ], where: {user_id: req.user.id}})
-                        .then(addressBook => res.status(201).send(addressBook))
-                        .catch(err => res.status(401).send({msg: err.message}));
+                        .then(addressBook => res.status(200).send(Utility.successResp("", addressBook)))
+                        .catch(err => res.status(400).send(Utility.errorResp(err.message, null)));
     },
-    getAddressUserAddresses(req, res){
-        console.log('I AM HERE');
+    getUserAddresses(req, res){
         AddressBooks
                     .find({
                         include: [
@@ -84,7 +93,7 @@ module.exports = {
                             }
                         ],
                         where: {id: req.params.id}})
-                    .then(addressBooks => Utility.validateRes(addressBooks, req, res))
+                    .then(addressBooks => Utility.validateRes(addressBooks, res))
                     .catch(err => res.status(401).send({msg: err.message}));
     },
     deleteAddressByIdAndUserId(req, res){

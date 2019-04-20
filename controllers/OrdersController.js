@@ -29,8 +29,7 @@ module.exports = {
                             .catch(err => res.status(400).send({msg:err.message}));
     },
     fetchOrders(req, res){
-        let userId = req.user.id;
-        Orders.findAll({where: {user_id: userId}, include: [
+        Orders.findAll({include: [
             {
                 model : Platoons,
                 as: 'platoons',
@@ -51,12 +50,13 @@ module.exports = {
                 require: false,
                 include: [{model: States, as: 'state'},{model: Cities, as: 'city'}]
             }
-        ]});
+        ]})
+        .then(orders => res.status(200).send(utility.successResp("", orders)))
+        .catch(err => res.status(400).send(utility.errorResp(err.message, "")));
     },
     getOrderByRef(req, res){
-        
         let order = Orders.find(
-                {where: {order_no: req.params.order_no}, 
+                {where: {id: req.params.id}, 
             include: [
                 {
                     model : Platoons,
@@ -91,54 +91,82 @@ module.exports = {
                     include: [{model: States, as: 'state'},{model: Cities, as: 'city'}]
                 }
                 ]})
-                .then(order => res.status(200).send({order: order}))
-                .catch(err => res.status(400).send({msg: err.message}))
+                .then(order => res.status(200).send(utility.successResp("", order)))
+                .catch(err => res.status(400).send(utility.errorResp(err.message, "")))
+    },
+    updateOrderStatus(req, res){
+        const ORDERID   = req.params.id;
+        const STATUS    = req.body.status;
+
+        Orders.update({status: STATUS}, {where:{id:ORDERID}}).then(order => {
+            res.status(200).send(utility.successResp("Update successful", order));
+        }).catch(err => res.status(400).send(utility.errorResp(err.message, "")));
     },
 
-    getAllOrderByUserID(req, res){
-        Orders.findAll(
+    getUserOrders(req, res){
+        let USERID = req.user.id;
+        Orders.findAll({where: {user_id: USERID}, include: [
             {
-                where: {user_id: req.params.userId},
-                include: [
-                    {
-                        model : Platoons,
-                        as: 'platoons',
-                        through: { attributes: [] },
-                        include: [
-                            {
-                                model: PlatoonImage,
-                                as: 'images',
-                                required: false
-                            },{
-                                model: Users,
-                                as: 'users',
-                                required: false,
-                                attributes: ['id', 'email', 'profile_pic_url'],                            
-                            }                            
-                        ]
-                    },
-                    {
-                        model: Transactions,
-                        require: false
-                    },
-                    {
-                        model: AddressBooks,
-                        'as' : 'address',
-                        require: false,
-                        include: [{model: States, as: 'state'},{model: Cities, as: 'city'}]
-                    },
-                    {
-                        model: PickUpStations,
-                        require: false,
-                        include: [{model: States, as: 'state'},{model: Cities, as: 'city'}]
-                    }
-                ]
+                model : Platoons,
+                as: 'platoons',
+                through: { attributes: [] }
+            },
+            {
+                model: Transactions,
+                require: false
+            },
+            {
+                model: AddressBooks,
+                'as' : 'address',
+                require: false,
+                include: [{model: States, as: 'state'},{model: Cities, as: 'city'}]
+            },
+            {
+                model: PickUpStations,
+                require: false,
+                include: [{model: States, as: 'state'},{model: Cities, as: 'city'}]
             }
-            ).then(orders => res.status(200).send(orders))
-            .catch(err => res.status(400).send({msg: err.message}))
+        ]})
+        .then(orders => res.status(200).send(utility.successResp("", orders)))
+        .catch(err => res.status(400).send(utility.errorResp(err.message, "")));        
     },
-    getOrderStatus(req, res){},
-    updateStatus(req, res){},
-    getOrderByIdANDUserID(req, res){},
-    getPlatoonInfo(req, res){}
+    getPlatoonInfo(req, res){
+        const ORDERID = req.params.id;
+        Orders.findOne({where:{id: ORDERID}}).then(order => {
+            if(_.isNull(order)) return res.status(404).send(utility.errorResp("Order Not Found"));
+            order.getPlatoons().then(associatedPlatoons => {
+                res.status(200).send(utility.successResp("", associatedPlatoons));
+            });
+        }).catch(err => res.status(400).send(utility.errorResp(err.message, "")));
+    },
+    getOrderByOrderNo(req, res){
+        let ORDERNO = req.params.order_no;
+        Orders.findOne({where: {order_no: ORDERNO}, include: [
+            {
+                model : Platoons,
+                as: 'platoons',
+                through: { attributes: [] }
+            },
+            {
+                model: Transactions,
+                require: false
+            },
+            {
+                model: AddressBooks,
+                'as' : 'address',
+                require: false,
+                include: [{model: States, as: 'state'},{model: Cities, as: 'city'}]
+            },
+            {
+                model: PickUpStations,
+                require: false,
+                include: [{model: States, as: 'state'},{model: Cities, as: 'city'}]
+            }
+        ]})
+        .then(order => {
+            if(_.isNull(order)) return res.status(404).send(utility.errorResp("Order Not Found", order));
+            res.status(200).send(utility.successResp("", order));
+        })
+        .catch(err => res.status(400).send(utility.errorResp(err.message, "")));        
+    }
 }

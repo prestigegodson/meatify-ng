@@ -1,8 +1,10 @@
 /** Order Router */
 
-var express = require('express');
-var router = express.Router();
+const express   = require('express');
+const router    = express.Router();
 
+const auth      = require('../auth/auth');
+const utility   = require('../lib/Utility');
 const OrdersController = require('../controllers').Orders;
 
 /**
@@ -13,20 +15,18 @@ const OrdersController = require('../controllers').Orders;
  * PUT Update order status
  */
 
-router.post('/', OrdersController.create);
+// router.post('/', OrdersController.create); 
 
-router.get('/', OrdersController.fetchOrders);
+router.get('/', [auth.authenticate(), utility.verifyAdmin], OrdersController.fetchOrders);
 
-router.get('/:order_no', OrdersController.getOrderByRef);
+router.get('/user', auth.authenticate(), OrdersController.getUserOrders);
 
-router.get('/user/:userId', OrdersController.getAllOrderByUserID);
-/*
-router.get('/:id/status', OrdersController.getOrderStatus);
+router.get('/:id', auth.authenticate(), OrdersController.getOrderByRef);
 
-router.put('/:id/status'. OrdersController.updateStatus);
+router.patch('/:id', [auth.authenticate(), utility.verifyAdmin], OrdersController.updateOrderStatus);
 
-router.get('/:id/user/:userId', OrdersController.getOrderByIdANDUserID);
+router.get('/:id/platoons', auth.authenticate(), OrdersController.getPlatoonInfo);
 
-router.get('/:id/platoon', OrdersController.getPlatoonInfo);
-*/
+router.get('/order_no/:order_no', auth.authenticate(), OrdersController.getOrderByOrderNo);
+
 module.exports = router;

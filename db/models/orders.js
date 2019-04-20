@@ -34,6 +34,7 @@ module.exports = (sequelize, DataTypes) => {
     // associations can be defined here
     Orders.belongsTo(models.Users, {
       foreignKey: {name: 'user_id'},
+      as: 'user',
       allowNull: false
     });
 

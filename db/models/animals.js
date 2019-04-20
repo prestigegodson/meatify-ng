@@ -1,5 +1,6 @@
 'use strict';
 
+const uuid = require('uuid/v4');
 const sequelizePaginate = require('sequelize-paginate')
 
 module.exports = (sequelize, DataTypes) => {

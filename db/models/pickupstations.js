@@ -1,4 +1,6 @@
 'use strict';
+const uuid = require('uuid/v4');
+
 module.exports = (sequelize, DataTypes) => {
   const PickUpStations = sequelize.define('PickUpStations', {
     id: {
@@ -51,7 +53,14 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: {name: 'city_id'},
       as: 'city',
       allowNull: false
-    })    
+    })
+
+    PickUpStations.hasMany(models.Orders, {
+      foreignKey: {name: 'pick_up_id'},
+      as: 'orders',
+      hooks: true
+    });
+
   };
   return PickUpStations;
 };

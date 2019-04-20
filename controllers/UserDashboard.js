@@ -4,22 +4,22 @@
  * User Dashboard Activities
  */
 
-const config = require('config');
-const Users = require("../db/models").Users;
-const Roles = require("../db/models").Roles;
-const Orders = require("../db/models").Orders;
-const Platoons = require("../db/models").Platoons;
-const AddressBooks = require("../db/models").AddressBooks;
-const Delivery = require("../db/models").Delivery;
+const config        = require('config');
+const Users         = require("../db/models").Users;
+const Roles         = require("../db/models").Roles;
+const Orders        = require("../db/models").Orders;
+const Platoons      = require("../db/models").Platoons;
+const AddressBooks  = require("../db/models").AddressBooks;
+const Delivery      = require("../db/models").Delivery;
 
-const EventMailer = require("../events/EventMailer");
-const Mailer = new EventMailer();
-const uuid = require('uuid/v4');
-const Utility = require('../lib/Utility');
+const EventMailer   = require("../events/EventMailer");
+const Mailer        = new EventMailer();
+const uuid          = require('uuid/v4');
+const Utility       = require('../lib/Utility');
 
-const Sequelize = require("../db/models").Sequelize;
-const _ = require("lodash");
-const bcrypt = require('bcrypt');
+const Sequelize     = require("../db/models").Sequelize;
+const _             = require("lodash");
+const bcrypt        = require('bcrypt');
 
 module.exports = {
     /**
@@ -53,7 +53,7 @@ module.exports = {
                 // {model: CardInfo},
             ] 
         })
-            .then(response => res.status(201).send(response))
+            .then(response => res.status(201).send(Utility.successResp("", response)))
             .catch();
     }
 

@@ -1,5 +1,6 @@
 'use strict';
 
+const sequelizePaginate = require('sequelize-paginate');
 const uuid = require('uuid/v4');
 
 module.exports = (sequelize, DataTypes) => {
@@ -44,9 +45,12 @@ module.exports = (sequelize, DataTypes) => {
     // associations can be defined here
     Transactions.belongsTo(models.Orders, {
       foreignKey: {name: 'order_id'},
-      as: 'orders',
+      as: 'order',
       allowNull: false,
     })
   };
+
+  sequelizePaginate.paginate(Transactions);
+
   return Transactions;
 };
