@@ -11,6 +11,8 @@ router.get('/', AnimalController.index);
 
 router.get('/meatify', AnimalController.getMeatify);
 
+router.get('/:id', AnimalController.getAnimalsById);
+
 router.post('/', [auth.authenticate(), utility.verifyAdmin], AnimalController.createAnimal);
 
 router.put('/:id', [auth.authenticate(), utility.verifyAdmin], AnimalController.updateAnimal);

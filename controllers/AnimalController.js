@@ -69,6 +69,32 @@ module.exports = {
         .catch(err => res.status(400).send(utility.errorResp(err.message, null)));
     },
 
+    getAnimalsById(req, res){
+        Animals.findOne({
+            where:{id:req.params.id},
+            attributes: [
+                'id',
+                'animal_type',
+                [sequelize.literal('(SELECT COUNT(*) FROM platoons, animals WHERE platoons.animal_type_id = animals.id)'), 'platoonCount']
+            ],
+            include: [
+            {
+                model: Platoons,
+                as: 'platoons',
+                required: false,
+                // attributes: [],
+                duplicating: false               
+            }
+        ],
+        order: [[sequelize.literal('platoonCount'), 'DESC']]            
+        })
+        .then(animals => {
+            if(_.isNull(animals)) return res.status(404).send(utility.successResp("Animal not found", null));
+            res.status(200).send(utility.successResp(null, animals));
+        })
+        .catch(err => res.status(400).send(utility.errorResp(err.message, "")));
+    },
+
     index(req, res){
         Animals.findAll(
             {
