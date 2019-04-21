@@ -1,4 +1,5 @@
 /** Butchers Controller */
+'use strict'
 
 /** Libs */
 const _ = require('lodash');
@@ -87,7 +88,9 @@ module.exports = {
             ],
             order: [[sequelize.literal('platoonCount'), 'DESC']]
         }
-        ).then(animals => res.status(200).send(utility.successResp(null, animals)))
+        )
+        .then(animals => res.status(200).send(utility.successResp(null, animals)))
+        .catch(err => res.status(400).send(utility.errorResp(err.message, "")));
     },
 
     createAnimal(req, res){
