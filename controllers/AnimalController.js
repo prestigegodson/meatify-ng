@@ -75,7 +75,7 @@ module.exports = {
                 attributes: [
                     'id',
                     'animal_type',
-                    [sequelize.literal('(SELECT COUNT(*) FROM Platoons WHERE Platoons.animal_type_id = Animals.id)'), 'platoonCount']
+                    [sequelize.literal('(SELECT COUNT(*) FROM platoons WHERE platoons.animal_type_id = animals.id)'), 'platoonCount']
                 ],
                 include: [
                 {
