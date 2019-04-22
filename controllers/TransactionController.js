@@ -16,40 +16,69 @@ const Mailer        = new EventMailer();
 module.exports = {
 
     async getNewAccessCode(req, res) {
-        const customerId    = req.query.customerid;
-        const platoonId     = req.query.cartid;
-        // const deliveryType  = req.query.deliverid;
-        // const addressID     = req.query.addressid;
-        // const pickUpID      = req.query.pickupid;
+        /**
+         * 
+         */
+        const { platoons, deliverId, addressId, pickUpId } = req.body;
+        const LOGGED_IN_USER_ID = req.user.id;
 
-        var customer        = await Users.findById(customerId);
-        var platoon         = await Platoons.findById(platoonId);
-        var amount          = platoon.price_per_member;
+        const customer        = await Users.findById(LOGGED_IN_USER_ID);
+        const customFields    = [];
+        const platoonObjRep   = [];
+        var amount            = 0;
+        
+        function me(){
+            return new Promise(resolve => {
+                platoons.map(async (id, index) => {
+                    //platoon add new user
+                    const platoon = await Platoons.findOne({where:{id: id}});
+                    const users   = await platoon.getUsers();
 
-        const customFields = [];
+                    if(platoon.is_completed){   
+                        
+                        platoonObjRep.push({'platoon': platoon, 'completed': true});
 
+                    }else if(_.isEqual(platoon.no_of_member, users.length)){
+                        
+                        await Platoons.update({is_completed: true});
+                        platoonObjRep.push({'platoon': platoon, 'completed': true});
+
+                    }else{
+                        customFields.push({
+                            "display_name": customer.email,
+                            "variable_name": platoon.ref_no,
+                            "value": {amount: platoon.price_per_member, customer: customer.id}
+                        });
+                        //platoonObjRep.push({'platoon': platoon, 'completed': false});
+                    }
+                    amount = _.add(amount, platoon.price_per_member);  
+                    if((platoons.length - 1) == index){resolve(amount);}
+                    
+                });
+
+            })
+        }
+
+        await me();
 
         try {
             paystack.transaction.initialize({
                 email: customer.email,
                 amount: amount,
                 reference: uuid(),
-                channels: ['bank'],
+                channels: ['card'],
                 metadata: {
-                    custom_fields: [
-                        {
-                            "display_name": "Started From",//userID
-                            "variable_name": "started_from",//cart
-                            "value": "sample charge card backend"//price
-                        },
-                    ]
+                    custom_fields: customFields
                 }
             }, function (error, body) {
                 if (error) {
-                    res.send({ error: error });
+                    res.send(utility.errorResp(error, null));
                     return;
                 }
-                res.send(utility.successResp("", body.data));
+                res.send(utility.successResp("", {
+                    data: body.data,
+                    'platoons': _.isEmpty(platoonObjRep) ? null : platoonObjRep
+                }));
             });
 
         } catch (err) { console.log(err) }
@@ -117,9 +146,24 @@ module.exports = {
                     payload.platoons.map((id, index) => {
                         //platoon add new user
                         return Platoons.findOne({where:{id: id}}).then( async function(platoon) {
-                            await platoon.setUsers([userId]);
-                            await orders.setPlatoons([platoon.id]);
-                            platoonLists.push(platoon);
+                            //
+                            let users = await platoon.getUsers();
+                            if(platoon.is_completed){
+                                platoonLists.push({'platoon': platoon,'is_completed': true});
+                                //put it in pending state
+
+                            }else if(_.isEqual(platoon.no_of_member, users.length)){
+                                
+                                await Platoons.update({is_completed: true});
+                                platoonLists.push({'platoon': platoon,'is_completed': true});
+                                //put in a pending state
+                            }else{
+                                
+                                await platoon.setUsers([userId]);
+                                await orders.setPlatoons([platoon.id]);                                
+                                platoonLists.push({'platoon': platoon,'is_completed': false});
+                            }
+
                         });
                     });
 

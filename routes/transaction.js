@@ -15,7 +15,7 @@ const TransController = require('../controllers').Transactions;
  * POST payment webhook using transaction reference
  */
  
- router.get('/new-access-code', auth.authenticate(), TransController.getNewAccessCode);
+ router.post('/new-access-code', auth.authenticate(), TransController.getNewAccessCode);
 
  router.get('/verify/:reference', auth.authenticate(), TransController.getReference);
 
