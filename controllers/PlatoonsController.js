@@ -32,8 +32,8 @@ module.exports = {
                                           'is_completed', 
                                           'animal_type_id', 
                                           'butcher_id'])
-                        ).then(platoon => res.status(200).send(utility.successResp(platoon)))
-                        .catch(err => res.status(400).send(utility.errorResp(err.message)));
+                        ).then(platoon => res.status(200).send(utility.successResp("", platoon)))
+                        .catch(err => res.status(400).send(utility.errorResp(err.message, err)));
     },
     getPlatoons(req, res){
         var isComp = req.query.is_completed || 'false';
@@ -69,8 +69,8 @@ module.exports = {
                                 required: false
                             }
                         ] })
-                .then(platoons => res.status(200).send(utility.successResp(platoons)))
-                .catch(err => res.status(400).send(utility.errorResp(err.message)));
+                .then(platoons => res.status(200).send(utility.successResp("", platoons)))
+                .catch(err => res.status(400).send(utility.errorResp(err.message, err)));
     },
     getPlatoonById(req, res){
         Platoons.find({
@@ -175,7 +175,7 @@ module.exports = {
                     ]
                 })
                 .then(platoon => utility.validateRes(platoon, res))
-                .catch(err => res.status(400).send(utility.errorResp(err.message, null)));
+                .catch(err => res.status(400).send(utility.errorResp(err.message, err)));
     },
     getPlatoonWithUsers(req, res){
         const PLATOON_ID = req.params.id;
@@ -188,9 +188,9 @@ module.exports = {
             where: {id: PLATOON_ID}
         }).then(platoon => {
             if(platoon)
-                return res.status(201).send({msg:platoon.users})
+                return res.status(201).send(utility.successResp("", platoon.users))
             res.status(401).send({msg: 'Resources not found'})
-        }).catch(err => res.status(400).send({msg:err.message}));    
+        }).catch(err => res.status(400).send(utility.errorResp(err.message, err)));    
     },
     getPlatoonWithOrders(req, res){
         const PLATOON_ID = req.params.id;
@@ -205,7 +205,7 @@ module.exports = {
             where: {platoon_id: PLATOON_ID}
         })
         .then(platoon => utility.validateRes(platoon, res))
-        .catch(err => res.status(400).send({msg:err.message}))
+        .catch(err => res.status(400).send(utility.errorResp(err.message, err)));
     },
 
     destoryPlatoon(req, res){
