@@ -28,6 +28,10 @@ module.exports = {
                 .then(user => {
                     if(user == null){
                         res.status(400).send(utility.errorResp('Email address or password not found, check and try again!', null));
+                    }else if(user.verified == false){
+                        res.status(400).send(
+                            utility.errorResp('Please confirm your account first', null)
+                        );
                     }else if(Users.isPassword(user.password, password)){
                         const payload = _.pick(user, ['id', 'email', 'phone_number', 'is_admin']);
                         const _token = jwt.encode(payload, config.get("secretOrKey"));
