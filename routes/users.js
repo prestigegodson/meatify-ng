@@ -15,7 +15,7 @@ router.put('/password_reset', UsersController.changePassword);
 /** User Activities */
 router.get('/dashboard', auth.authenticate(), DashboardController.getUserInfo);
 
-router.post('/validatephone', auth.authenticate(), UsersController.validatePhoneNumber);
+router.post('/validatephone', UsersController.validatePhoneNumber);
 
 /** User profile information */
 router.get('/profile', auth.authenticate(), UsersController.profile);

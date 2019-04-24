@@ -123,9 +123,8 @@ module.exports = {
     /** Validate User's phone number */
     validatePhoneNumber(req, res) {
         const { email, otp, phone } = req.body;
-        const USERID = req.user.id;
 
-        Users.findOne({ where: { id: USERID } }).then(user => {
+        Users.findOne({ where: { phone_number: phone } }).then(user => {
             //if found
             if (user.validation_token == otp) {
                 //validation succeed! 
