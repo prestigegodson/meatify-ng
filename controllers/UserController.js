@@ -56,12 +56,12 @@ module.exports = {
                 } else {
                     Mailer.emit('SEND_WELCOME_MAIL', { email: user.email, last_login_ip: user.last_login_ip, activationUrl: uuid() });
                 }
-                res.status(200).send(Utility.successResp(user));
+                res.status(200).send(Utility.successResp("", user));
             })
             .catch(Sequelize.ValidationError, err => {
-                res.status(400).send(Utility.errorResp(err.errors[0].message));
+                res.status(400).send(Utility.errorResp(err.errors[0].message, err));
             })
-            .catch(err => res.status(401).send(Utility.errorResp(err.message)))
+            .catch(err => res.status(401).send(Utility.errorResp(err.message, err)))
     },
 
     /** Change password */
@@ -82,10 +82,10 @@ module.exports = {
                 password_confirmation = bcrypt.hashSync(password_confirmation, salt);
 
                 Users.update({ password: password_confirmation }, { where: { email: email } })
-                    .then(instance => res.status(200).send(Utility.successResp("Password update successfully!")))
-                    .catch(err => res.status(400).send(Utility.errorResp(err.message)));
+                    .then(instance => res.status(200).send(Utility.successResp("Password update successfully!", "")))
+                    .catch(err => res.status(400).send(Utility.errorResp(err.message, err)));
             } else {
-                res.status(400).send(Utility.errorResp('Something went wrong, incorrect credentials'));
+                res.status(400).send(Utility.errorResp('Something went wrong, incorrect credentials', ""));
             }
         });
     },
