@@ -24,7 +24,7 @@ const ExtractJwt = passportJWT.ExtractJwt;
         Users.find({where: {id: payload.id}, include: [{model: Roles}]})
                 .then(user => {
                     if(user){
-                        return done(null, _.pick(user, ['id', 'email', 'phone_number', 'is_admin']));
+                        return done(null, user);
                     }
                     return done(null, false, { message: 'Incorrect login credentials.' });
                 }).catch(err => {

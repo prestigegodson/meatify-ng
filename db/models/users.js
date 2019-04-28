@@ -41,12 +41,12 @@ module.exports = (sequelize, DataTypes) => {
     profile_pic_url:{
       type: DataTypes.STRING(150),
       allowNull:true
-    },
+    },/*
     is_admin: {
       type: DataTypes.BOOLEAN,
       allowNull:false,
       defaultValue: false
-    },
+    },*/
     last_login_ip: {
       type: DataTypes.STRING(45),
       allowNull: true,

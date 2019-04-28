@@ -17,7 +17,14 @@ module.exports = (sequelize, DataTypes) => {
       unique: true,
       validate:{
         notEmpty: true
-      }          
+      }
+    },
+    animal_img:{
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate:{
+        notEmpty:true
+      }
     }
   }, {
     underscored: true,

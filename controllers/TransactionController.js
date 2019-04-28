@@ -31,10 +31,10 @@ module.exports = {
             return new Promise(resolve => {
                 platoons.map(async (id, index) => {
                     //platoon add new user
-                    const platoon = await Platoons.findOne({where:{id: id}});
+                    const platoon = await Platoons.findOne({where:{id: id}, include:[]});
                     const users   = await platoon.getUsers();
 
-                    if(platoon.is_completed){   
+                    if(platoon.is_completed){
                         
                         platoonObjRep.push({'platoon': platoon, 'completed': true});
 

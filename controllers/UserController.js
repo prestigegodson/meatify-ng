@@ -44,7 +44,7 @@ module.exports = {
         //should return 
         Users
             .create(_.pick(req.body, ['email', 'password', 'phone_number', 'is_admin']))
-            .then(user => {
+            .then(async user => {
                 if (user.phone_number != undefined) {
                     //generate phone number validation token, 5 digit
                     var _token = Utility.generatePhoneValidationToken();
@@ -56,7 +56,10 @@ module.exports = {
                 } else {
                     Mailer.emit('SEND_WELCOME_MAIL', { email: user.email, last_login_ip: user.last_login_ip, activationUrl: uuid() });
                 }
-                res.status(200).send(Utility.successResp("", user));
+                const role = await Roles.findOne({where: {role: 'user'}});
+                if(!_.isNull(role)){ await user.setRoles([role.id]) }; //set roles to user
+
+                res.status(200).send(Utility.successResp("User created successfully!", user));
             })
             .catch(Sequelize.ValidationError, err => {
                 res.status(400).send(Utility.errorResp(err.errors[0].message, err));
@@ -102,8 +105,8 @@ module.exports = {
                         { model: AddressBooks }
                     ]
             })
-            .then(user => res.status(201).send(user))
-            .catch(err => res.status(401).send({ msg: err.message }));
+            .then(user => res.status(200).send(user))
+            .catch(err => res.status(400).send({ msg: err.message }));
     },
 
     /** Upload User's profile */
