@@ -29,15 +29,15 @@ module.exports = {
    
         const users = await Users.find({
             attributes: [
-                [sequelize.literal('(SELECT COUNT(*) FROM Users WHERE Users.verified = 1)'), 'active'],
-                [sequelize.literal('(SELECT COUNT(*) FROM Users WHERE Users.verified = 0)'), 'inactive']
+                [sequelize.literal('(SELECT COUNT(*) FROM users WHERE users.verified = 1)'), 'active'],
+                [sequelize.literal('(SELECT COUNT(*) FROM users WHERE users.verified = 0)'), 'inactive']
             ]
         });
         
         const platoons = await Platoons.find({
             attributes: [
-                [sequelize.literal('(SELECT COUNT(*) FROM Platoons WHERE Platoons.is_completed = 1)'), 'completed'],
-                [sequelize.literal('(SELECT COUNT(*) FROM Platoons WHERE Platoons.is_completed = 0)'), 'uncompleted']
+                [sequelize.literal('(SELECT COUNT(*) FROM platoons WHERE platoons.is_completed = 1)'), 'completed'],
+                [sequelize.literal('(SELECT COUNT(*) FROM platoons WHERE platoons.is_completed = 0)'), 'uncompleted']
             ]            
         })
 
@@ -50,7 +50,7 @@ module.exports = {
                 'animal_type',
                 'animal_img',
                 //https://github.com/sequelize/sequelize/issues/222
-                [sequelize.literal('(SELECT COUNT(*) FROM Platoons WHERE Platoons.animal_type_id = Animals.id)'), 'count']
+                [sequelize.literal('(SELECT COUNT(*) FROM platoons WHERE platoons.animal_type_id = animals.id)'), 'count']
             ],
             include: [{
                 model: Platoons,
