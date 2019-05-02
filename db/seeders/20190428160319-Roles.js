@@ -7,7 +7,7 @@ module.exports = {
       Return a promise to correctly handle asynchronicity.
     */
 
-      return queryInterface.bulkInsert('Roles', 
+      return queryInterface.bulkInsert('roles', 
       [
         {role: 'admin'},
         {role: 'super-admin'},
