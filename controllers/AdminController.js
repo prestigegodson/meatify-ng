@@ -50,7 +50,7 @@ module.exports = {
                 'animal_type',
                 'animal_img',
                 //https://github.com/sequelize/sequelize/issues/222
-                [sequelize.literal('(SELECT COUNT(*) FROM platoons WHERE platoons.animal_type_id = animals.id)'), 'count']
+                [sequelize.literal('(SELECT COUNT(*) FROM animals, platoons WHERE platoons.animal_type_id = animals.id)'), 'count']
             ],
             include: [{
                 model: Platoons,
