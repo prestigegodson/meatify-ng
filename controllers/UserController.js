@@ -43,9 +43,11 @@ module.exports = {
         }
         //should return 
         Users
-            .create(_.pick(req.body, ['email', 'password', 'phone_number', 'is_admin']))
+            .create(_.pick(req.body, ['email', 'password', 'phone_number']))
             .then(async user => {
                 if (user.phone_number != undefined) {
+                    const role = await Roles.findOne({where: {role: 'user'}});
+                    if(role) { await user.setRoles([role.id]); }
                     //generate phone number validation token, 5 digit
                     var _token = Utility.generatePhoneValidationToken();
                     Users.update({ validation_token: _token },

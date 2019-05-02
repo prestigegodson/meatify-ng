@@ -17,15 +17,15 @@ class EventSmsMessenger extends EventEmitter{
             port: 587,
             secure: false, // upgrade later with STARTTLS
             auth: {
-                user: 'oyewoleabayomi@gmail.com',
-                pass: 'adefioye1984'
+                user: 'bitcert@gmail.com',
+                pass: 'Adefioye1.'
             }
         });
 
         let mailSender = transporter.templateSender(new EmailTemplate("mail/template/welcome"), {from: 'no-reply@meatify.ng'});     
 
         mailSender(
-            {to: '"Meatify.NG 👻" <oyewoleabayomi@gmail.com>', subject: 'Welcome to Meatify.ng'},
+            {to: '"Meatify.NG 👻" <bitcert@gmail.com>', subject: 'Welcome to Meatify.ng'},
             { //context
                 username: data.email,
                 last_login_ip: data.last_login_ip,
@@ -46,14 +46,14 @@ class EventSmsMessenger extends EventEmitter{
             port: 587,
             secure: false, // upgrade later with STARTTLS
             auth: {
-                user: 'oyewoleabayomi@gmail.com',
-                pass: 'adefioye1984'
+                user: 'bitcert@gmail.com',
+                pass: 'Adefioye1.'
             }
         });
 
         let mailSender = transporter.templateSender(new EmailTemplate("mail/template/order"), {from: 'no-reply@meatify.ng'});             
         mailSender(
-            {to: '"Meatify.NG 👻" <oyewoleabayomi@gmail.com>', subject: 'Order Meatify.ng'},
+            {to: '"Meatify.NG 👻" <bitcert@gmail.com>', subject: 'Order Meatify.ng'},
             {
 
             },
