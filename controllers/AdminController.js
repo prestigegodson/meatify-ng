@@ -111,8 +111,6 @@ module.exports = {
         const USERID = req.params.id;
         const {role_id} = req.body;
 
-        console.log(role_id);
-
         Users.findOne({where: {id: USERID}})
              .then(async user => {
                  if(!user) return res.status(404).send({msg: 'Invalid user ID'});
