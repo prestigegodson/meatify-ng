@@ -77,15 +77,17 @@ module.exports = {
 
         const options = {
             attributes: ['id', 
-                        'email', 
-                        'is_admin', 
+                        'email',
                         'last_login_date', 
                         'last_login_ip', 
                         'created_at'
                     ],
             page: 1,
             paginate: 25,
-            order: [['created_at', 'DESC']]
+            order: [['created_at', 'DESC']],
+            include: [
+                {model: Roles, as: 'roles', attributes: ['id', 'role'], through: {attributes:[]}}
+            ]
             // where: { name: { [Op.like]: `%elliot%` } }
           }
 
@@ -100,7 +102,13 @@ module.exports = {
         const userId = req.params.id;
         Users.findOne({where: {id: userId}, 
                 include:[
-                    {model: Roles}, 
+                    {
+                        model: Roles, 
+                        as: 'roles', 
+                        required: false, 
+                        attributes:['id', 'role'],
+                        through: {attributes:[]}
+                    }, 
                     {model: Orders}, 
                     {model: AddressBooks}                   
                 ]})

@@ -30,7 +30,7 @@ module.exports = {
                     where: {email: email}, 
                     include:[
                         {
-                            model: Roles, 
+                            model: Roles,
                             as: 'roles', 
                             required: false,
                             attributes:['id', 'role'],

@@ -20,11 +20,11 @@ const ExtractJwt = passportJWT.ExtractJwt;
     }
 
     const strategy = new Strategy(params, (payload, done) => {
-        //console.log(payload);
-        Users.find({where: {id: payload.id}, include: [{model: Roles}]})
+        console.log(payload);
+        Users.find({where: {id: payload.id}})
                 .then(user => {
                     if(user){
-                        return done(null, user);
+                        return done(null, _.assign(user, {is_admin: payload.is_admin}));
                     }
                     return done(null, false, { message: 'Incorrect login credentials.' });
                 }).catch(err => {
