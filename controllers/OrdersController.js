@@ -33,7 +33,7 @@ module.exports = {
         let offset = 0;
 
         Orders.findAndCountAll().then(data => {
-            let page    = req.query.page;
+            let page    = req.query.page == null ? 1: req.query.page;
             let pages   = Math.ceil(data.count / limit);
             offset      = limit * (page - 1);
 
