@@ -27,8 +27,49 @@ module.exports = {
                             ]))
                             .then(order => utility.validateRes(order, res) )
                             .catch(err => res.status(400).send({msg:err.message}));
-    },
+    }, 
     fetchOrders(req, res){
+        let limit = 50;
+        let offset = 0;
+
+        Orders.findAndCountAll().then(data => {
+            let page    = req.query.page;
+            let pages   = Math.ceil(data.count / limit);
+            offset      = limit * (page - 1);
+
+            Orders.findAll({
+                limit: limit,
+                offset: offset,
+                $sort: { id: 1 },
+                include: [
+                {
+                    model : Platoons,
+                    as: 'platoons',
+                    through: { attributes: [] }
+                },
+                {
+                    model: Transactions,
+                    require: false
+                },
+                {
+                    model: AddressBooks,
+                    'as' : 'address',
+                    require: false,
+                    include: [{model: States, as: 'state'},{model: Cities, as: 'city'}]
+                },
+                {
+                    model: PickUpStations,
+                    require: false,
+                    include: [{model: States, as: 'state'},{model: Cities, as: 'city'}]
+                }                
+            ]})
+            .then(orders => res.status(200)
+                .send(utility.successResp("", {'result': orders, 'count': data.count, 'pages': pages}))
+            )
+            .catch(err => res.status(400).send(utility.errorResp(err.message, "")));
+        })
+
+        /*
         Orders.findAll({include: [
             {
                 model : Platoons,
@@ -53,6 +94,7 @@ module.exports = {
         ]})
         .then(orders => res.status(200).send(utility.successResp("", orders)))
         .catch(err => res.status(400).send(utility.errorResp(err.message, "")));
+    */
     },
     getOrderByRef(req, res){
         let order = Orders.find(
