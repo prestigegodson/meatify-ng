@@ -42,7 +42,7 @@ module.exports = {
                     if(user == null){
                         res.status(400).send(utility.errorResp('Email address or password not found, check and try again!', null));
                     }else if(user.verified == false){
-                        res.status(400).send(
+                        res.status(422).send(
                             utility.errorResp('Please confirm your account first', null)
                         );
                     }else if(Users.isPassword(user.password, password)){
