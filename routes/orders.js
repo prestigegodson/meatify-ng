@@ -3,8 +3,9 @@
 const express   = require('express');
 const router    = express.Router();
 
-const auth      = require('../auth/auth');
-const utility   = require('../lib/Utility');
+const auth          = require('../auth/auth');
+const firebaseAuth  = require('../auth/fbAuth');
+const utility       = require('../lib/Utility');
 const OrdersController = require('../controllers').Orders;
 
 /**
@@ -19,14 +20,15 @@ const OrdersController = require('../controllers').Orders;
 
 router.get('/', [auth.authenticate(), utility.verifyAdmin], OrdersController.fetchOrders);
 
-router.get('/user', auth.authenticate(), OrdersController.getUserOrders);
-
-router.get('/:id', auth.authenticate(), OrdersController.getOrderByRef);
-
 router.patch('/:id', [auth.authenticate(), utility.verifyAdmin], OrdersController.updateOrderStatus);
 
-router.get('/:id/platoons', auth.authenticate(), OrdersController.getPlatoonInfo);
 
-router.get('/order_no/:order_no', auth.authenticate(), OrdersController.getOrderByOrderNo);
+router.get('/user', firebaseAuth.verifyToken, OrdersController.getUserOrders);
+
+router.get('/:id', firebaseAuth.verifyToken, OrdersController.getOrderByRef);
+
+router.get('/:id/platoons', firebaseAuth.verifyToken, OrdersController.getPlatoonInfo);
+
+router.get('/order_no/:order_no', firebaseAuth.verifyToken, OrdersController.getOrderByOrderNo);
 
 module.exports = router;

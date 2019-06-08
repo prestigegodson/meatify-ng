@@ -7,11 +7,12 @@ const StationsController = require('../controllers').PickUpStations;
 const auth = require('../auth/auth');
 const utility = require('../lib/Utility');
 
-router.post('/', [auth.authenticate(), utility.verifyAdmin], StationsController.create);
 
 router.get('/', StationsController.getPickUpStations);
 
 router.get('/:id', StationsController.getPickUpStationsByID);
+
+router.post('/', [auth.authenticate(), utility.verifyAdmin], StationsController.create);
 
 router.put('/:id', [auth.authenticate(), utility.verifyAdmin], StationsController.updatePickUpStations);
 

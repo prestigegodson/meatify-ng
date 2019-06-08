@@ -8,59 +8,44 @@ const ip      = require('ip');
 module.exports = (sequelize, DataTypes) => {
   const Users = sequelize.define('Users', {
     id:{
-      type: DataTypes.UUID,
+      type: DataTypes.STRING(100),
       primaryKey: true,
       allowNull:false,
-      defaultValue: () => uuid()
+      unique: true
     },
     email: {
       type: DataTypes.STRING(100),
-      allowNull: false,
+      allowNull: true,
       unique: true,
       validate:{
         isEmail: true,
         notEmpty: true
       }
     },
-    password: {
+    photo_url: {
       type: DataTypes.STRING,
-      allowNull: true,
-      validate: {
-        notEmpty: true
-      }
+      allowNull: true
     },
     phone_number: {
       type: DataTypes.STRING(20),
       allowNull: true,
-      unique: true,
     },
-    validation_token: {
-      type: DataTypes.INTEGER(10),
+    display_name: {
+      type: DataTypes.STRING,
       allowNull:true
     },
-    profile_pic_url:{
-      type: DataTypes.STRING(150),
-      allowNull:true
-    },/*
-    is_admin: {
+    is_email_verified: {
       type: DataTypes.BOOLEAN,
       allowNull:false,
       defaultValue: false
-    },*/
+    },
     last_login_ip: {
-      type: DataTypes.STRING(45),
-      allowNull: true,
-      defaultValue:null
+      type: DataTypes.STRING(20),
+      allowNull: true
     },
-    verified: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-      defaultValue: false
-    },
-    last_login_date: {
-      type: DataTypes.DATE,
-      allowNull:false,
-      defaultValue: DataTypes.NOW
+    last_login_date: { //lastSeen
+      type: 'TIMESTAMP',
+      allowNull:true
     },
     is_disabled: {
       type: DataTypes.BOOLEAN,

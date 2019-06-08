@@ -1,6 +1,7 @@
 /** Transaction Router */
 
-const auth      = require('../auth/auth');
+const auth          = require('../auth/auth');
+const firebaseAuth  = require('../auth/fbAuth');
 var express     = require('express');
 var router      = express.Router();
 const utility   = require('../lib/Utility');
@@ -14,18 +15,18 @@ const TransController = require('../controllers').Transactions;
  * PUT update transaction status
  * POST payment webhook using transaction reference
  */
- 
- router.post('/new-access-code', auth.authenticate(), TransController.getNewAccessCode);
 
- router.get('/verify/:reference', auth.authenticate(), TransController.getReference);
+ router.get('/:id', firebaseAuth.verifyToken, TransController.getTransByID);
 
- router.post('/process-payment', auth.authenticate(), TransController.processPayment);
+ router.post('/new-access-code', firebaseAuth.verifyToken, TransController.getNewAccessCode);
+
+ router.get('/verify/:reference', firebaseAuth.verifyToken, TransController.getReference);
+
+ router.post('/process-payment', firebaseAuth.verifyToken, TransController.processPayment);
+
+ router.get('/trnx_ref/:ref', firebaseAuth.verifyToken, TransController.getTransactionByRef);
 
  router.get('/', [auth.authenticate(), utility.verifyAdmin], TransController.getAllTransactions);
-
- router.get('/:id', auth.authenticate(), TransController.getTransByID);
-
- router.get('/trnx_ref/:ref', auth.authenticate(), TransController.getTransactionByRef);
 
 /*
 

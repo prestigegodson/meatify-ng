@@ -26,6 +26,8 @@
     "express": "~4.16.0",
     "express-fileupload": "^1.0.0",
     "faker": "^4.1.0",
+    "firebase-admin": "^8.0.0",
+    "google-libphonenumber": "^3.2.2",
     "ip": "^1.1.5",
     "joi": "^14.0.4",
     "jwt-simple": "^0.5.5",

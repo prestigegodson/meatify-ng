@@ -16,8 +16,8 @@ module.exports = {
       const platoons = await queryInterface.sequelize.query(`SELECT id from platoons;`, { type: queryInterface.sequelize.QueryTypes.SELECT});
 
       await UserPlatoon.create({platoon_id: platoons[0].id, user_id:users[0].id}).then(up => {});
-      await UserPlatoon.create({platoon_id: platoons[0].id, user_id:users[1].id}).then(up => {});
-      await UserPlatoon.create({platoon_id: platoons[2].id, user_id:users[2].id}).then(up => {});
+      // await UserPlatoon.create({platoon_id: platoons[0].id, user_id:users[0].id}).then(up => {});
+      // await UserPlatoon.create({platoon_id: platoons[2].id, user_id:users[0].id}).then(up => {});
 
   },
 

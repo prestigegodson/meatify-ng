@@ -1,26 +1,30 @@
 /** Address Book Router */
 
-var express = require('express');
-var router = express.Router();
+var express     = require('express');
+var router      = express.Router();
 
 const AddressBookController = require('../controllers').AddressBooks;
-const auth = require('../auth/auth');
+const auth      = require('../auth/auth');
+const admin     = require('../auth/fbAuth');
+
 
 /**
  * CRUD Address Books
  * GET User address books
- * 
+ * Authenticate all route
  */
 
- router.post('/', auth.authenticate(), AddressBookController.create);
+ router.use(admin.verifyToken);
 
- router.get('/', auth.authenticate(), AddressBookController.getAddress);
+ router.post('/', AddressBookController.create);
 
- router.get('/:id', auth.authenticate(), AddressBookController.getUserAddresses);
+ router.get('/', AddressBookController.getAddress);
 
- router.put('/:id', auth.authenticate(), AddressBookController.updateAddress);
+ router.get('/:id', AddressBookController.getUserAddresses);
 
- router.delete('/:id', auth.authenticate(), AddressBookController.deleteAddress);
+ router.put('/:id', AddressBookController.updateAddress);
+
+ router.delete('/:id', AddressBookController.deleteAddress);
 
 //  router.delete('/:id/user/:userId', auth.authenticate(), AddressBookController.deleteAddressByIdAndUserId);
 

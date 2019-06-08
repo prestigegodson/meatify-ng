@@ -9,7 +9,7 @@ const Utility = require("../lib/Utility");
 
 module.exports = {
     create(req, res){
-        req.body.user_id = req.user.id;
+        req.body.user_id = req.user.uid;
         const toSave = _.pick(req.body, 
                         [
                             'user_id', 
@@ -38,13 +38,13 @@ module.exports = {
                 'phone_number'
             ]);        
         AddressBooks
-                .update(toUpdate, {where: {id: req.params.id, user_id: req.user.id}})
+                .update(toUpdate, {where: {id: req.params.id, user_id: req.user.uid}})
                 .then(result => res.status(201).send(Utility.successResp("Update Successful", result)))
                 .catch(err => res.status(401).send(Utility.errorResp(err.message, null)));
     },
     deleteAddress(req, res){
         const ID = req.params.id;
-        const USERID = req.user.id;
+        const USERID = req.user.uid;
         //check if the address is created by the user
         AddressBooks.findOne({where: {id: ID}}).then(addressBook => {
             if(_.isNull(addressBook)) return res.status(404).send(Utility.errorResp("Address not Found in AddressBook", null));
@@ -73,7 +73,7 @@ module.exports = {
                                 as: 'state',
                                 required: false,
                             }
-                        ], where: {user_id: req.user.id}})
+                        ], where: {user_id: req.user.uid}})
                         .then(addressBook => res.status(200).send(Utility.successResp("", addressBook)))
                         .catch(err => res.status(400).send(Utility.errorResp(err.message, null)));
     },

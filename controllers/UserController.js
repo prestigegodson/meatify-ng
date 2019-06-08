@@ -23,6 +23,7 @@ const _             = require("lodash");
 const bcrypt        = require('bcrypt');
 
 const Joi           = require('joi');
+const phoneUtil     = require('google-libphonenumber').PhoneNumberUtil.getInstance();
 
 //User validation
 const schema = Joi.object().keys({
@@ -34,6 +35,57 @@ const schema = Joi.object().keys({
 });
 
 module.exports = {
+    /* FireBase User, create OR Update */
+    firebaseUserUpdate(req, res){
+        //extract payload
+        const payload = _.pick(req.body, [
+            'uid', 
+            'email', 
+            'photoUrl', 
+            'phoneNumber', 
+            'displayName', 
+            'creationTimestamp',
+            'lastSeen',
+            'isEmailVerified'
+        ]);
+
+        const number = phoneUtil.parseAndKeepRawInput(payload.phoneNumber, 'NG');
+
+        Users.fineOne({where:{id: payload.ud}}).then(user => {
+            if(_.isNull(user)){
+                Users.create({
+                    id: payload.uid,
+                    email: payload.email, 
+                    photoUrl: payload.photoUrl, 
+                    phoneNumber : phoneUtil.format(number, PNF.E164),//payload.phoneNumber, 
+                    displayName : payload.displayName, 
+                    lastLoginDate : payload.lastSeen,
+                    isEmailVerified: payload.isEmailVerified                     
+                }).then(user => {
+                    //send mail silently.
+                    Mailer.emit(
+                        'SEND_WELCOME_MAIL', 
+                        {   email: payload.email, 
+                            displayName: payload.displayName,
+                            // last_login_ip: user.last_login_ip,
+                            isEmailVerified: payload.isEmailVerified  
+                        });
+                    res.status(200).send(Utility.successResp("User created successful!", user));
+                }).catch(err => res.status(401).send(Utility.errorResp(err.message, err)))
+            }else{
+                user.update({
+                    email: payload.email, 
+                    photoUrl: payload.photoUrl, 
+                    phoneNumber : payload.phoneNumber, 
+                    displayName : payload.displayName, 
+                    lastLoginDate : payload.lastSeen,
+                    isEmailVerified: payload.isEmailVerified     
+                },{ where: { id: payload.id } }).then(user => {
+                    res.status(200).send(Utility.successResp("User updated successful!", user));
+                }).catch(err => res.status(401).send(Utility.errorResp(err.message, err)))
+            }
+        });
+    },
     /** Create new user */
     create(req, res) {
         const { error, value } = Joi.validate(req.body, schema);
