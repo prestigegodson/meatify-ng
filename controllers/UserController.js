@@ -52,7 +52,7 @@ module.exports = {
         let formatNumber = '';
 
         //check availability of phone Number;
-        if(!_.isNull(payload.phoneNumber) || !_.isEmpty(payload.phoneNumber) ){
+        if(payload.phoneNumber != ""){
             let number = phoneUtil.parseAndKeepRawInput(payload.phoneNumber, 'NG');
             formatNumber = phoneUtil.format(number, PNF.E164);
         }
@@ -60,7 +60,7 @@ module.exports = {
         Users.findOne({where:{id: payload.ud}}).then(user => {
             if(_.isNull(user)){
                 Users.create({
-                    id: payload.uid,
+                    id: payload.id,
                     email: payload.email, 
                     photo_url: payload.photoUrl, 
                     phone_number : formatNumber,//payload.phoneNumber, 

@@ -71,6 +71,7 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   //Hook
+  /*
   Users.hook('beforeCreate', (user, option) => {
     const salt          = bcrypt.genSaltSync(10);
     user.password       = bcrypt.hashSync(user.password, salt);
@@ -81,6 +82,7 @@ module.exports = (sequelize, DataTypes) => {
   Users.isPassword = (encodedPassword, password) => {
     return bcrypt.compareSync(password, encodedPassword);
   }
+  */
 
   sequelizePaginate.paginate(Users);
     
