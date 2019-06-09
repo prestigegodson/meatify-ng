@@ -21,6 +21,7 @@ const jwt           = require("jwt-simple");
 const Sequelize     = require("../db/models").Sequelize;
 const _             = require("lodash");
 const bcrypt        = require('bcrypt');
+const moment        = require('moment');
 
 const Joi           = require('joi');
 const phoneUtil     = require('google-libphonenumber').PhoneNumberUtil.getInstance();
@@ -65,7 +66,7 @@ module.exports = {
                     photo_url: payload.photoUrl, 
                     phone_number : formatNumber,//payload.phoneNumber, 
                     display_name : payload.displayName, 
-                    last_login_date : payload.lastSeen,
+                    last_login_date : moment().format('YYYY:MM:DD HH:mm:ss'),
                     is_email_verified: payload.isEmailVerified,
                     last_login_ip: payload.lastLoginIp        
                 }).then(user => {
@@ -82,11 +83,12 @@ module.exports = {
             }else{
                 user.update({
                     email: payload.email, 
-                    photoUrl: payload.photoUrl, 
-                    phoneNumber : payload.phoneNumber, 
-                    displayName : payload.displayName, 
-                    lastLoginDate : payload.lastSeen,
-                    isEmailVerified: payload.isEmailVerified     
+                    photo_url: payload.photoUrl, 
+                    phone_number : formatNumber,//payload.phoneNumber, 
+                    display_name : payload.displayName, 
+                    last_login_date : moment().format('YYYY:MM:DD HH:mm:ss'),
+                    is_email_verified: payload.isEmailVerified,
+                    last_login_ip: payload.lastLoginIp      
                 },{ where: { id: payload.id } }).then(user => {
                     res.status(200).send(Utility.successResp("User updated successful!", user));
                 }).catch(err => res.status(401).send(Utility.errorResp(err.message, err)))
