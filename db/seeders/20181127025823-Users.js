@@ -11,7 +11,7 @@ const salt    = bcrypt.genSaltSync(10);
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert('users', [{
-      id: uuid(),
+      uid: uuid(),
       email: 'osinubi.oyinkansola@gmail.com',
       phone_number: '07063317344',
       display_name: 'Osinubi Oyinkansola',
