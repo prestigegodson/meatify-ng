@@ -39,35 +39,42 @@ module.exports = {
     firebaseUserUpdate(req, res){
         //extract payload
         const payload = _.pick(req.body, [
-            'uid', 
+            'id', 
             'email', 
             'photoUrl', 
             'phoneNumber', 
-            'displayName', 
-            'creationTimestamp',
+            'displayName',
             'lastSeen',
-            'isEmailVerified'
+            'isEmailVerified',
+            'lastLoginIp'
         ]);
 
-        const number = phoneUtil.parseAndKeepRawInput(payload.phoneNumber, 'NG');
+        let formatNumber = '';
+
+        //check availability of phone Number;
+        if(!_.isNull(payload.phoneNumber) || !_.isEmpty(payload.phoneNumber) ){
+            let number = phoneUtil.parseAndKeepRawInput(payload.phoneNumber, 'NG');
+            formatNumber = phoneUtil.format(number, PNF.E164);
+        }
 
         Users.fineOne({where:{id: payload.ud}}).then(user => {
             if(_.isNull(user)){
                 Users.create({
                     id: payload.uid,
                     email: payload.email, 
-                    photoUrl: payload.photoUrl, 
-                    phoneNumber : phoneUtil.format(number, PNF.E164),//payload.phoneNumber, 
-                    displayName : payload.displayName, 
-                    lastLoginDate : payload.lastSeen,
-                    isEmailVerified: payload.isEmailVerified                     
+                    photo_url: payload.photoUrl, 
+                    phone_number : formatNumber,//payload.phoneNumber, 
+                    display_name : payload.displayName, 
+                    last_login_date : payload.lastSeen,
+                    is_email_verified: payload.isEmailVerified,
+                    last_login_ip: payload.lastLoginIp        
                 }).then(user => {
                     //send mail silently.
                     Mailer.emit(
                         'SEND_WELCOME_MAIL', 
                         {   email: payload.email, 
                             displayName: payload.displayName,
-                            // last_login_ip: user.last_login_ip,
+                            lastLoginIp: payload.lastLoginIp,
                             isEmailVerified: payload.isEmailVerified  
                         });
                     res.status(200).send(Utility.successResp("User created successful!", user));
