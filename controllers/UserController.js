@@ -58,8 +58,9 @@ module.exports = {
             formatNumber = phoneUtil.format(number, PNF.E164);
         }
 
-        Users.findOne({where:{id: payload.ud}}).then(user => {
+        Users.findOne({where:{id: payload.id}}).then(user => {
             if(_.isNull(user)){
+                // console.log(user);
                 Users.create({
                     id: payload.id,
                     email: payload.email, 
@@ -81,6 +82,7 @@ module.exports = {
                     res.status(200).send(Utility.successResp("User created successful!", user));
                 }).catch(err => res.status(401).send(Utility.errorResp(err.message, err)))
             }else{
+            
                 user.update({
                     email: payload.email, 
                     photo_url: payload.photoUrl, 
