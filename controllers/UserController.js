@@ -57,7 +57,7 @@ module.exports = {
             formatNumber = phoneUtil.format(number, PNF.E164);
         }
 
-        Users.fineOne({where:{id: payload.ud}}).then(user => {
+        Users.findOne({where:{id: payload.ud}}).then(user => {
             if(_.isNull(user)){
                 Users.create({
                     id: payload.uid,
