@@ -8,7 +8,7 @@ const ip      = require('ip');
 module.exports = (sequelize, DataTypes) => {
   const Users = sequelize.define('Users', {
     id:{
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
     },    
