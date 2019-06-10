@@ -20,7 +20,7 @@ module.exports = {
          * 
          */
         const { platoons, deliverId, addressId, pickUpId } = req.body;
-        const LOGGED_IN_USER_ID = req.user.user_id;
+        const LOGGED_IN_USER_ID = req.body.user.user_id;
 
         const customer        = await Users.findById(LOGGED_IN_USER_ID);
         const customFields    = [];
@@ -114,7 +114,7 @@ module.exports = {
          * long item_amount
          */
         const payload   = req.body;
-        const userId    = req.user.user_id;
+        const userId    = req.body.user.user_id;
         let orderInfo   = {};
         
         seq.transaction(t => {
