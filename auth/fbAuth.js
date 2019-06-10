@@ -17,7 +17,8 @@ module.exports = {
         admin.auth().verifyIdToken(token)
             .then(user => {
                 if(!_.isNull(user)){
-                    req.body.user = _.assign(user, {uid: user.uid});
+                    console.log(user);
+                    req.body.user = user;//_.assign(user, {uid: user.uid});
                     return next();
                 }else{
                     return res.status(401).send( Utility.errorResp("You are not authorized to access this resources", null) );//
