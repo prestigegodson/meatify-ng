@@ -48,7 +48,7 @@ module.exports = {
                         customFields.push({
                             "display_name": customer.email,
                             "variable_name": platoon.ref_no,
-                            "value": {amount: platoon.price_per_member, customer: customer.id}
+                            "value": {amount: platoon.price_per_member, customer: customer.uid}
                         });
                         //platoonObjRep.push({'platoon': platoon, 'completed': false});
                     }
