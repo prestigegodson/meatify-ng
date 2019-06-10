@@ -8,8 +8,12 @@ const YOUR_API_KEY = "AIzaSyBlvDXdwRBnKaC50fH-MEZDh-Ge8noSCGc";
 module.exports = (sequelize, DataTypes) => {
   const AddressBooks = sequelize.define('AddressBooks', {
     id:{
-      type: DataTypes.UUID,
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
       primaryKey: true,
+    },    
+    uid:{
+      type: DataTypes.UUID,
       allowNull:false,
       defaultValue: () => uuid()
     },

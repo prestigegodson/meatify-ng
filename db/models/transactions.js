@@ -6,8 +6,12 @@ const uuid = require('uuid/v4');
 module.exports = (sequelize, DataTypes) => {
   const Transactions = sequelize.define('Transactions', {
     id:{
-      type: DataTypes.UUID,
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
       primaryKey: true,
+    },    
+    uid:{
+      type: DataTypes.UUID,
       allowNull:false,
       defaultValue: () => uuid()
     },
