@@ -65,7 +65,7 @@ module.exports = {
         try {
             paystack.transaction.initialize({
                 email: customer.email,
-                amount: amount * 100,
+                amount: parseFloat( amount ) * 100,
                 reference: uuid(),
                 channels: ['card'],
                 metadata: {
