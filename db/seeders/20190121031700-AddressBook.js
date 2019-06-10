@@ -13,7 +13,7 @@ module.exports = {
     // console.log(users);
     return queryInterface.bulkInsert('addressbooks', 
     [{
-      id: uuid(),
+      uid: uuid(),
       name : "Oyewole Abayomi Samuel", 
       address : "6B, Crown Court Estate, Orisa Sanya Street", 
       address_ext : "Oniru Estate",
@@ -26,7 +26,7 @@ module.exports = {
       updated_at: moment().format('YYYY:MM:DD HH:mm:ss')
     },
     {
-      id: uuid(),
+      uid: uuid(),
       name : "Adekunle O. Oludayo", 
       address : "Ora Ekpen Cres", 
       address_ext : "Oniru Estate",
