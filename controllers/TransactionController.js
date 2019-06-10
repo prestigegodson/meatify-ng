@@ -21,6 +21,7 @@ module.exports = {
          */
         const { platoons, deliverId, addressId, pickUpId } = req.body;
         const LOGGED_IN_USER_ID = req.body.user.user_id;
+        console.log(LOGGED_IN_USER_ID);
 
         const customer        = await Users.findOne({where: {uid: LOGGED_IN_USER_ID}});
         const customFields    = [];
