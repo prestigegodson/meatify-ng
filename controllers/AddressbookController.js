@@ -10,6 +10,15 @@ const Utility       = require("../lib/Utility");
 module.exports = {
     create(req, res){
         req.body.user_id = req.body.user.id;
+        Utility.validatePhoneNumber(req.body.phone_number, (valid, formatedNumber) => {
+            if(valid){
+                console.log(formatedNumber);
+                req.body.phone_number = formatedNumber;
+            }else{
+                return res.status(404).send(Utility.errorResp("Kindly enter valid phone number", null));
+            }
+        });
+        // req.body.phone_number = req.body.phone_number;
         const toSave = _.pick(req.body, 
                         [
                             'user_id', 
