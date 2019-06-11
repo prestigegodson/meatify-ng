@@ -10,7 +10,7 @@ admin.initializeApp({
 
 
 module.exports = {
-    verifyToken(req, res, next){
+   async verifyToken(req, res, next){
 
         let token = req.headers.authorization;
 
