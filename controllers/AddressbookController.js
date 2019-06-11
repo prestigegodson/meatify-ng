@@ -1,15 +1,15 @@
 /** AddressBooks Controller */
 
-const _ = require("lodash");
-const AddressBooks = require("../db/models").AddressBooks;
-const States = require("../db/models").States;
-const Cities = require("../db/models").Cities;
+const _             = require("lodash");
+const AddressBooks  = require("../db/models").AddressBooks;
+const States        = require("../db/models").States;
+const Cities        = require("../db/models").Cities;
 
-const Utility = require("../lib/Utility");
+const Utility       = require("../lib/Utility");
 
 module.exports = {
     create(req, res){
-        req.body.user_id = req.user.id;
+        req.body.user_id = req.body.user.id;
         const toSave = _.pick(req.body, 
                         [
                             'user_id', 
@@ -38,13 +38,13 @@ module.exports = {
                 'phone_number'
             ]);        
         AddressBooks
-                .update(toUpdate, {where: {uid: req.params.uid, user_id: req.user.id}})
+                .update(toUpdate, {where: {uid: req.params.uid, user_id: req.body.user.id}})
                 .then(result => res.status(201).send(Utility.successResp("Update Successful", result)))
                 .catch(err => res.status(401).send(Utility.errorResp(err.message, null)));
     },
     deleteAddress(req, res){
         const ID = req.params.uid;
-        const USERID = req.user.id;
+        const USERID = req.body.user.id;
         //check if the address is created by the user
         AddressBooks.findOne({where: {uid: ID}}).then(addressBook => {
             if(_.isNull(addressBook)) return res.status(404).send(Utility.errorResp("Address not Found in AddressBook", null));
@@ -73,7 +73,7 @@ module.exports = {
                                 as: 'state',
                                 required: false,
                             }
-                        ], where: {user_id: req.user.id}})
+                        ], where: {user_id: req.body.user.id}})
                         .then(addressBook => res.status(200).send(Utility.successResp("", addressBook)))
                         .catch(err => res.status(400).send(Utility.errorResp(err.message, null)));
     },
