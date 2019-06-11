@@ -1,6 +1,7 @@
 var admin           = require("firebase-admin");
 const _             = require('lodash');
 const Utility       = require("../lib/Utility");
+const Users         = require('../db/models').Users;
 const serviceAccount  = require("../config/meatify-ng-firebase-adminsdk-m51nb-6b1b526e0b.json");
 
 admin.initializeApp({
