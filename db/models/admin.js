@@ -3,10 +3,9 @@
 const sequelizePaginate = require('sequelize-paginate');
 const bcrypt  = require('bcrypt');
 const uuid    = require("uuid/v4");
-const ip      = require('ip');
 
 module.exports = (sequelize, DataTypes) => {
-  const Admin = sequelize.define('Users', {
+  const Admin = sequelize.define('Admin', {
     id:{
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -53,16 +52,16 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: true,
     tableName: 'admin'
   });
-  Users.associate = function(models) {
+  Admin.associate = function(models) {
     // associations can be defined here
-    Users.belongsToMany(models.Roles, { through: models.AdminRole, as: 'roles' });    
+    Admin.belongsToMany(models.Roles, { through: models.AdminRole, as: 'roles' });    
   };
 
   //Hook
-  Admin.hook('beforeCreate', (user, option) => {
+  Admin.hook('beforeCreate', (admin, option) => {
     const salt          = bcrypt.genSaltSync(10);
-    user.password       = bcrypt.hashSync(user.password, salt);
-    user.last_login_ip  = ip.address();
+    admin.password       = bcrypt.hashSync(admin.password, salt);
+    admin.last_login_ip  = ip.address();
   });
   
   //Compare password checker
@@ -70,7 +69,7 @@ module.exports = (sequelize, DataTypes) => {
     return bcrypt.compareSync(password, encodedPassword);
   }
 
-  sequelizePaginate.paginate(Users);
+  sequelizePaginate.paginate(Admin);
     
   return Admin;
 };
