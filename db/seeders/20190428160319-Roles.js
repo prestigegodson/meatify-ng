@@ -12,7 +12,7 @@ module.exports = {
         {role: 'admin'},
         {role: 'super-admin'},
         {role: 'butcher'},
-        {role: 'user'},
+        {role: 'staff'}
       ], {});
   },
 
@@ -23,6 +23,6 @@ module.exports = {
 
       Example:
     */
-      return queryInterface.bulkDelete('Person', null, {});
+      return queryInterface.bulkDelete('roles', null, {});
   }
 };

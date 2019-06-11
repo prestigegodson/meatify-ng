@@ -4,8 +4,8 @@ var express     = require('express');
 var router      = express.Router();
 
 const AddressBookController = require('../controllers').AddressBooks;
-const auth      = require('../auth/auth');
-const admin     = require('../auth/fbAuth');
+const auth          = require('../auth/auth');
+const fbAuth        = require('../auth/fbAuth');
 
 
 /**
@@ -14,17 +14,17 @@ const admin     = require('../auth/fbAuth');
  * Authenticate all route
  */
 
- router.use(admin.verifyToken);
+ router.use(fbAuth.verifyToken);
 
  router.post('/', AddressBookController.create);
 
  router.get('/', AddressBookController.getAddress);
 
- router.get('/:id', AddressBookController.getUserAddresses);
+ router.get('/:uid', AddressBookController.getUserAddresses);
 
- router.put('/:id', AddressBookController.updateAddress);
+ router.put('/:uid', AddressBookController.updateAddress);
 
- router.delete('/:id', AddressBookController.deleteAddress);
+ router.delete('/:uid', AddressBookController.deleteAddress);
 
 //  router.delete('/:id/user/:userId', auth.authenticate(), AddressBookController.deleteAddressByIdAndUserId);
 

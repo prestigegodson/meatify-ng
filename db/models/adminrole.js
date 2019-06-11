@@ -1,10 +1,10 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const UserRole = sequelize.define('UserRole', {
+  const AdminRole = sequelize.define('AdminRole', {
   }, {
     // underscored: true,
     timestamps: false,
-    tableName: 'userrole'
+    tableName: 'adminrole'
   });
   // UserRole.associate = function(models) {
   //   // associations can be defined here
@@ -17,5 +17,5 @@ module.exports = (sequelize, DataTypes) => {
   //     allowNull: false
   //   });
   // };
-  return UserRole;
+  return AdminRole;
 };

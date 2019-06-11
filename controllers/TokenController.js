@@ -9,7 +9,7 @@ const utility   = require('../lib/Utility');
 const passport = require('passport');
 const {Strategy, ExtractJwt} = require('passport-jwt');
 
-const Users = require("../db/models").Users;
+const Admin = require("../db/models").Admin;
 const Roles = require("../db/models").Roles;
 
 const loginSchema = Joi.object().keys({
@@ -25,7 +25,7 @@ module.exports = {
         console.log(error);
         if(error == null){
             const {email, password} = req.body;
-            Users.findOne(
+            Admin.findOne(
                 {
                     where: {email: email}, 
                     include:[
@@ -38,34 +38,28 @@ module.exports = {
                         } //UserRole
                     ]
                 })
-                .then(user => {
-                    if(user == null){
+                .then(admin => {
+                    if(admin == null){
                         res.status(400).send(utility.errorResp('Email address or password not found, check and try again!', null));
-                    }else if(user.verified == false){
-                        res.status(422).send(
-                            utility.errorResp('Please confirm your account first', null)
-                        );
-                    }else if(Users.isPassword(user.password, password)){
-                        const isAdmin = _.find(user.roles, {role:'admin'}) == undefined ? false : true;
+                    }else if(Admin.isPassword(admin.password, password)){
+                        // const isAdmin = _.find(admin.roles, {role:'admin'}) == undefined ? false : true;
                         const payload = {
-                            id: user.id, 
-                            email:user.email, 
-                            phone_number: user.phone_number,
-                            is_admin: isAdmin
+                            id:         admin.id,
+                            uid:        admin.uid,
+                            email:      admin.email,
+                            is_disabled: admin.is_disabled,
+                            roles:      admin.roles
                         };
                         const _token = jwt.encode(payload, config.get("secretOrKey"));
 
                         res.json({
                             token: _token,
                             user: {
-                                id:             user.id,
-                                email:          user.email,
-                                phone_number:   user.phone_number,
-                                is_admin:       user.is_admin,
-                                verified:       user.verified,
-                                is_disabled:    user.is_disabled,
-                                is_admin:       isAdmin,
-                                roles:          user.roles
+                                id:             admin.id,
+                                uid:            admin.uid,
+                                email:          admin.email,
+                                is_disabled:    admin.is_disabled,
+                                roles:          admin.roles
                             }
                         })
                     }else{
