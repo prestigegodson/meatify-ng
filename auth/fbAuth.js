@@ -10,12 +10,12 @@ admin.initializeApp({
 
 
 module.exports = {
-   async verifyToken(req, res, next){
+   verifyToken(req, res, next) {
 
         let token = req.headers.authorization;
 
         admin.auth().verifyIdToken(token)
-            .then(user => {
+            .then(async user => {
                 if(!_.isNull(user)){
                     let reqUser = await Users.findOne({where: {uid: user.user_id}});
                     req.body.user = _.assign(user, {id: reqUser.id});
