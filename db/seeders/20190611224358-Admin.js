@@ -1,6 +1,10 @@
 'use strict';
 
-const uuid          = require('uuid/v4');
+const uuid    = require('uuid/v4');
+const bcrypt  = require('bcrypt');
+const ip      = require('ip');
+const moment  = require('moment');
+const faker   = require('faker');
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
