@@ -26,13 +26,15 @@ module.exports = {
          * Animals
          * Transactions
          */
-   
+        /*
         const users = await Users.find({
             attributes: [
                 [sequelize.literal('(SELECT COUNT(*) FROM users WHERE users.verified = 1)'), 'active'],
                 [sequelize.literal('(SELECT COUNT(*) FROM users WHERE users.verified = 0)'), 'inactive']
             ]
         });
+        */
+        const users = await Users.findAll();
         
         const platoons = await Platoons.find({
             attributes: [
@@ -85,10 +87,12 @@ module.exports = {
             page: 1,
             paginate: 25,
             order: [['created_at', 'DESC']],
+            /*
             include: [
                 {model: Roles, as: 'roles', attributes: ['id', 'role'], through: {attributes:[]}}
             ]
-            // where: { name: { [Op.like]: `%elliot%` } }
+            where: { name: { [Op.like]: `%elliot%` } }
+            */
           }
 
         Users.paginate(options)
@@ -99,27 +103,30 @@ module.exports = {
             });
     },
     manageUser(req, res){
-        const userId = req.params.id;
-        Users.findOne({where: {id: userId}, 
+        const userId = req.params.uid;
+        Users.findOne({where: {uid: userId}, 
                 include:[
+                    /*
                     {
                         model: Roles, 
                         as: 'roles', 
                         required: false, 
                         attributes:['id', 'role'],
                         through: {attributes:[]}
-                    }, 
+                    },
+                    */ 
                     {model: Orders}, 
                     {model: AddressBooks}                   
                 ]})
              .then(user => res.status(200).send(utility.successResp(user)))
              .catch(err => res.status(400).send({msg:err.message}));
     },
+    /*
     manageUserRole(req, res){
-        const USERID = req.params.id;
+        const USERID = req.params.uid;
         const {role_id} = req.body;
 
-        Users.findOne({where: {id: USERID}})
+        Users.findOne({where: {uid: USERID}})
              .then(async user => {
                  if(!user) return res.status(404).send({msg: 'Invalid user ID'});
                  await user.setRoles([role_id]);
@@ -138,10 +145,11 @@ module.exports = {
              .then(result => res.status(200).send(utility.successResp("Role created", result)))
              .catch(err => res.status(400).send(utility.errorResp(err.message, null)));
     },
+    */
     enableDisableUser(req, res){
-        const USERID = req.params.id;
+        const USERID = req.params.uid;
         console.log(USERID);
-        Users.findOne({where: {id: USERID}}).then(user => {
+        Users.findOne({where: {uid: USERID}}).then(user => {
             if(_.isNull(user)) return res.status(404).send(utility.errorResp("User not found!", null));
             Users
                 .update(
@@ -151,6 +159,7 @@ module.exports = {
         }).catch(err => res.status(400).send(utility.errorResp(err.message, null)));
 
     },
+    /*
     destoryRoleById(req, res){
         const ROLE_ID = req.params.id;
 
@@ -158,5 +167,6 @@ module.exports = {
              .then(result => res.status(200).send(utility.successResp('Delete successfully!', result)))
              .catch(err => res.status(400).send(utility.errorResp(err.message, null)));
     },
+    */
 
 }

@@ -1,34 +1,29 @@
 /** Admin Router */
 
-const auth          = require('../auth/auth');
+const admin         = require('../auth/auth');
 var express         = require('express');
 var router          = express.Router();
 const utility       = require('../lib/Utility');
 
 const AdminController = require('../controllers').Admin;
 
-//ADMIN ACTIVITIES
-router.get('/dashboard', [auth.authenticate(), utility.verifyAdmin], AdminController.getDashboard);
+//ADMIN ACTIVITIES 
+router.get('/dashboard', admin.authenticate(), AdminController.getDashboard);
 
 /* List all system users. */
-router.get('/users', [auth.authenticate(), utility.verifyAdmin], AdminController.listUsers);
+router.get('/users', admin.authenticate(), AdminController.listUsers);
 
 /** View User profile */
-router.get('/users/:id', [auth.authenticate(), utility.verifyAdmin], AdminController.manageUser);
-
-/** Change User role */
-router.put('/users/:id/roles', [auth.authenticate(), utility.verifyAdmin], AdminController.manageUserRole);
-
-/** Add role ==> Move this to role section */
-router.get('/roles', [auth.authenticate(), utility.verifyAdmin], AdminController.getAllRoles);
-
-/** Create new role */
-router.post('/roles', [auth.authenticate(), utility.verifyAdmin], AdminController.addNewRole);
-
-/** Delete role */
-router.delete('/roles/:id', [auth.authenticate(), utility.verifyAdmin], AdminController.destoryRoleById);
+router.get('/users/:uid', admin.authenticate(), AdminController.manageUser);
 
 /** Disable User */
-router.get('/users/:id/changeStatus', [auth.authenticate(), utility.verifyAdmin], AdminController.enableDisableUser);
+router.get('/users/:uid/changeStatus', admin.authenticate(), AdminController.enableDisableUser);
 
+/** For admin model only */
+/*
+router.put('/users/:uid/roles', [auth.authenticate(), utility.verifyAdmin], AdminController.manageUserRole);
+router.get('/roles', [auth.authenticate(), utility.verifyAdmin], AdminController.getAllRoles);
+router.post('/roles', [auth.authenticate(), utility.verifyAdmin], AdminController.addNewRole);
+router.delete('/roles/:uid', [auth.authenticate(), utility.verifyAdmin], AdminController.destoryRoleById);
+*/
 module.exports = router;

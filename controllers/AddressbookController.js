@@ -4,7 +4,6 @@ const _             = require("lodash");
 const AddressBooks  = require("../db/models").AddressBooks;
 const States        = require("../db/models").States;
 const Cities        = require("../db/models").Cities;
-
 const Utility       = require("../lib/Utility");
 
 module.exports = {
@@ -21,8 +20,8 @@ module.exports = {
         // req.body.phone_number = req.body.phone_number;
         const toSave = _.pick(req.body, 
                         [
-                            'user_id', 
-                            'name', 
+                            'user_id',
+                            'name',
                             'address', 
                             'address_ext',
                             'is_default',

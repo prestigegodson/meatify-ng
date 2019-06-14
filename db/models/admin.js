@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
-    },    
+    },   
     uid:{
         type: DataTypes.UUID,
         allowNull:false,
@@ -52,6 +52,7 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: true,
     tableName: 'admin'
   });
+
   Admin.associate = function(models) {
     // associations can be defined here
     Admin.belongsToMany(models.Roles, { through: models.AdminRole, as: 'roles' });    
@@ -59,9 +60,9 @@ module.exports = (sequelize, DataTypes) => {
 
   //Hook
   Admin.hook('beforeCreate', (admin, option) => {
-    const salt          = bcrypt.genSaltSync(10);
-    admin.password       = bcrypt.hashSync(admin.password, salt);
-    admin.last_login_ip  = ip.address();
+    const salt            = bcrypt.genSaltSync(10);
+    admin.password        = bcrypt.hashSync(admin.password, salt);
+    admin.last_login_ip   = ip.address();
   });
   
   //Compare password checker

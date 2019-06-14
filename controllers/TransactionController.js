@@ -30,9 +30,9 @@ module.exports = {
         
         function me(){
             return new Promise(resolve => {
-                platoons.map(async (id, index) => {
+                platoons.map(async (uid, index) => {
                     //platoon add new user
-                    const platoon = await Platoons.findOne({where:{id: id}, include:[]});
+                    const platoon = await Platoons.findOne({where:{uid: uid}, include:[]});
                     const users   = await platoon.getUsers();
 
                     if(platoon.is_completed){
@@ -115,7 +115,7 @@ module.exports = {
          * long item_amount
          */
         const payload   = req.body;
-        const userId    = req.body.user.user_id;
+        const userId    = req.body.user.id;
         let orderInfo   = {};
         
         seq.transaction(t => {
@@ -144,9 +144,9 @@ module.exports = {
                 }, {transaction: t}).then(trnx => {
                     //send order mail
 
-                    payload.platoons.map((id, index) => {
+                    payload.platoons.map((uid, index) => {
                         //platoon add new user
-                        return Platoons.findOne({where:{id: id}}).then( async function(platoon) {
+                        return Platoons.findOne({where:{uid: uid}}).then( async function(platoon) {
                             //
                             let users = await platoon.getUsers();
                             if(platoon.is_completed){

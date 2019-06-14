@@ -6,11 +6,15 @@ const uuid = require('uuid/v4');
 module.exports = (sequelize, DataTypes) => {
   const Platoons = sequelize.define('Platoons', {
     id:{
-      type: DataTypes.UUID,
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
       primaryKey: true,
+    },   
+    uid:{
+      type: DataTypes.UUID,
       allowNull:false,
       defaultValue: () => uuid()
-    },   
+    },
     ref_no: {
       type: DataTypes.STRING(40),
       allowNull:false,
