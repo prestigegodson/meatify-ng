@@ -22,7 +22,6 @@ module.exports = {
       uid: uuid(),
       email: 'admin@meatify.ng',
       password: 'admin123',
-      is_email_verified: true,
       last_login_ip: ip.address(),
       is_disabled: false,
       last_login_date: moment().format('YYYY:MM:DD HH:mm:ss'),
