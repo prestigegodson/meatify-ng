@@ -6,11 +6,15 @@ const sequelizePaginate = require('sequelize-paginate')
 module.exports = (sequelize, DataTypes) => {
   const Animals = sequelize.define('Animals', {
     id:{
-      type: DataTypes.UUID,
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
       primaryKey: true,
+    },    
+    uid:{
+      type: DataTypes.UUID,
       allowNull:false,
       defaultValue: () => uuid()
-    },    
+    },   
     animal_type: {
       type:   DataTypes.STRING(100),
       allowNull: false,

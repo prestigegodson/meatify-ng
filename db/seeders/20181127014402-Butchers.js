@@ -7,7 +7,7 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert('butchers', [
       {
-        id: uuid(),
+        uid: uuid(),
         name: 'Nigeria army abattoir, Ashanti',
         city: 'Ashanti',
         state: 'Lagos State',
@@ -16,7 +16,7 @@ module.exports = {
         updated_at: moment().format('YYYY:MM:DD HH:mm:ss')
       },
       {
-        id: uuid(),
+        uid: uuid(),
         name: 'Eko meat van (Eko oni baje)',
         city: 'Lagos',
         state: 'Lagos State',

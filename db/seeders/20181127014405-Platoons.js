@@ -21,7 +21,7 @@ module.exports = {
 
     return queryInterface.bulkInsert('platoons', [
       {
-        id: uuid(),
+        uid: uuid(),
         ref_no: '4930087234',
         exp_date: moment().add(4, 'days').format('YYYY:MM:DD HH:mm:ss'),
         price: parseFloat('300000').toFixed(2),
@@ -40,7 +40,7 @@ module.exports = {
         updated_at: moment().format('YYYY:MM:DD HH:mm:ss')
       },
       {
-        id: uuid(),
+        uid: uuid(),
         ref_no: '9300878901',
         exp_date: moment().add(15, 'days').format('YYYY:MM:DD HH:mm:ss'),
         price: parseFloat('250000').toFixed(2),
@@ -59,7 +59,7 @@ module.exports = {
         updated_at: moment().format('YYYY:MM:DD HH:mm:ss')
       },
       {
-        id: uuid(),
+        uid: uuid(),
         ref_no: '9300878492',
         exp_date: moment().add(8, 'days').format('YYYY:MM:DD HH:mm:ss'),
         price: parseFloat('350000').toFixed(2),
@@ -78,7 +78,7 @@ module.exports = {
         updated_at: moment().format('YYYY:MM:DD HH:mm:ss')
       },      
       {
-        id: uuid(),
+        uid: uuid(),
         ref_no: '4828985010',
         exp_date: moment().add(7, 'days').format('YYYY:MM:DD HH:mm:ss'),
         price: parseFloat('21000').toFixed(2),
@@ -98,7 +98,7 @@ module.exports = {
       },
       
       {
-        id: uuid(),
+        uid: uuid(),
         ref_no: '4828986331',
         exp_date: moment().add(7, 'days').format('YYYY:MM:DD HH:mm:ss'),
         price: parseFloat('17000').toFixed(2),
@@ -117,7 +117,7 @@ module.exports = {
         updated_at: moment().format('YYYY:MM:DD HH:mm:ss')
       },      
       {
-        id: uuid(),
+        uid: uuid(),
         ref_no: '4673209300',
         exp_date: moment().add(5, 'days').format('YYYY:MM:DD HH:mm:ss'),
         price: parseFloat('4000').toFixed(2),
@@ -136,7 +136,7 @@ module.exports = {
         updated_at: moment().format('YYYY:MM:DD HH:mm:ss')
       },
       {
-        id: uuid(),
+        uid: uuid(),
         ref_no: '4673207344',
         exp_date: moment().add(10, 'days').format('YYYY:MM:DD HH:mm:ss'),
         price: parseFloat('4500').toFixed(2),
