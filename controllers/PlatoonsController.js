@@ -102,7 +102,7 @@ module.exports = {
                         attributes: ['id', 'image_path'],
                         required: false
                      }
-                    ], where: {id: req.params.id}})
+                    ], where: {uid: req.params.id}})
                 .then(platoon => utility.validateRes(platoon, res))
                 .catch(err => res.status(400).send(utility.errorResp(err.message, null)));
     },
@@ -124,12 +124,12 @@ module.exports = {
                             'no_of_member', 
                             'is_completed', 
                             'animal_id',  
-                            'butcher_id']), {where: {id: req.params.id}})
+                            'butcher_id']), {where: {uid: req.params.id}})
             .then(platoon => res.status(200).send(utility.successResp("Platoon update successfully!", platoon)))
             .catch(err => res.status(400).send(utility.errorResp(err.message, null)))
     },
     isPlatoonCompleted(req, res){
-        Platoons.findById(req.params.id)
+        Platoons.findOne({where: {uid: req.params.id}})
                 .then(platoon => {
                     if(platoon.is_completed == true)
                         return res.status(200).send(utility.successResp("Not completed", {msg:true}));
@@ -142,7 +142,7 @@ module.exports = {
         const BUTCHER_ID = req.params.butcher_id;
 
         Platoons
-                .find({where: {id: PLATOONS_ID, butcher_id:BUTCHER_ID}, include: [{model: Butcher, as:'butchers'}]})
+                .find({where: {uid: PLATOONS_ID, butcher_id:BUTCHER_ID}, include: [{model: Butcher, as:'butchers'}]})
                 .then(platoon => utility.validateRes(platoon, res))
                 .catch(err => res.status(400).send({msg:err.message}));
     },
@@ -185,7 +185,7 @@ module.exports = {
             required: false,
             through: { attributes: [] }
         }], 
-            where: {id: PLATOON_ID}
+            where: {uid: PLATOON_ID}
         }).then(platoon => {
             if(platoon)
                 return res.status(201).send(utility.successResp("", platoon.users))
@@ -209,11 +209,11 @@ module.exports = {
     },
 
     destoryPlatoon(req, res){
-        Platoons.findOne({where: {id: req.params.id}}).then(platoon => {
+        Platoons.findOne({where: {uid: req.params.id}}).then(platoon => {
             if(_.isNull(platoon)) return res.status(404).send(utility.errorResp("Platoon Not Found!", null));
             platoon.getUsers(associatedUser => {
                 if(_.isEmpty(associatedUser)){
-                    Platoons.destroy({ where: {id: req.params.id}}).then(deletedPlatoons => {
+                    Platoons.destroy({ where: {uid: req.params.id}}).then(deletedPlatoons => {
                         res.status(200).send(utility.successResp("Delete successfully!", deletedPlatoons));
                     })
                 }else{
