@@ -98,7 +98,7 @@ module.exports = {
     },
     getOrderByRef(req, res){
         let order = Orders.find(
-                {where: {id: req.params.id}, 
+                {where: {order_no: req.params.id}, 
             include: [
                 {
                     model : Platoons,
@@ -113,7 +113,7 @@ module.exports = {
                             model: Users,
                             as: 'users',
                             required: false,
-                            attributes: ['id', 'email', 'profile_pic_url'],                            
+                            attributes: ['id', 'uid', 'email', 'profile_pic_url'],                            
                         }
                     ]
                 },
