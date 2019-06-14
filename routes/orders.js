@@ -20,7 +20,7 @@ const OrdersController = require('../controllers').Orders;
 
 router.get('/', [auth.authenticate(), utility.verifyAdmin], OrdersController.fetchOrders);
 
-router.patch('/:id', [auth.authenticate(), utility.verifyAdmin], OrdersController.updateOrderStatus);
+router.patch('/:id', [firebaseAuth.verifyToken], OrdersController.updateOrderStatus);
 
 
 router.get('/user', firebaseAuth.verifyToken, OrdersController.getUserOrders);
