@@ -1,5 +1,5 @@
 /node_modules
 /note.txt
 /meatify-ng-firebase-adminsdk-m51nb-f415268ea7.json
-config/meatify-ng-firebase-adminsdk-m51nb-6b1b526e0b.json
-db/config/config.json
+./config/meatify-ng-firebase-adminsdk-m51nb-6b1b526e0b.json
+./db/config/config.json
