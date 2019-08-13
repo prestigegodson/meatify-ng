@@ -17,8 +17,8 @@ class EventSmsMessenger extends EventEmitter{
             port: 587,
             secure: false, // upgrade later with STARTTLS
             auth: {
-                user: 'bitcert@gmail.com',
-                pass: 'Adefioye1.'
+                user: 'xxxxxx@gmail.com',
+                pass: 'xxxxxxx.'
             }
         });
 

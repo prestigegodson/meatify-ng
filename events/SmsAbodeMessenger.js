@@ -11,8 +11,8 @@ class SmsAbodeMessenger extends EventEmitter{
 
     sendDND(data){
         var queryParams = {
-            username: 'info@meatify.ng',
-            password: 'meaters',
+            username: 'xxxxxx@meatify.ng',
+            password: 'xxxxxx',
             sender: 'Meatify.NG',
             recipient: data.phone,
             message: 'Welcome to Meatify.NG, your activation code is '+data.token
@@ -26,8 +26,8 @@ class SmsAbodeMessenger extends EventEmitter{
 
     sendSMS(data){
         var queryParams = {
-            username: 'info@meatify.ng',
-            password: 'meaters',
+            username: 'xxxxx@meatify.ng',
+            password: 'xxxxxx',
             sender: 'Meatify.NG',
             recipient: data.phone,
             message: 'Welcome to Meatify.NG, your activation code is '+data.token
