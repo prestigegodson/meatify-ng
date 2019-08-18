@@ -10,8 +10,8 @@ class BetaSmsMessenger extends EventEmitter{
 
     sendSMS(data){
         var queryParams = {
-            username: 'oyewoleabayomi@gmail.com',
-            password: 'adefioye',
+            username: 'xxxxxxxxxxxxxxx@gmail.com',
+            password: 'xxxxxxxxxxxxxxxxxxxxx',
             sender: 'Meatify.NG',
             mobiles: data.phone,
             message: 'Welcome to Meatify.NG, your activation token is '+data.token
